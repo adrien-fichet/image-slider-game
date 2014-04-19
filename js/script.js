@@ -63,6 +63,9 @@ function createSlices(imgSrc, numberOfSlices, gridWidth, gridHeight) {
 
     var clipImages = document.querySelectorAll('img.clip');
     setViewportOnImages(clipImages, numberOfSlices, positions);
+
+    var randomPosition = parseInt(Math.random() * positions.length);
+    document.querySelectorAll('img.clip')[randomPosition].style.display = 'none';
 }
 
 function getGridDimension() {
@@ -79,7 +82,7 @@ function removePreviousGridIfExists() {
 
 function main(gridWidth) {
     var imgSrc = 'im/jquery-summit.png';
-    var numberOfSlices = 4;
+    var numberOfSlices = 3;
     document.querySelector('div#grid').style.width = gridWidth + 'px';
     document.querySelector('div#grid').style.height = gridWidth + 'px';
     removePreviousGridIfExists();
