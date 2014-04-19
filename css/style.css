@@ -1,0 +1,16 @@
+img.clip {
+    position: relative;
+    width: 300px;
+}
+
+div.viewport {
+    position: relative;
+    overflow: hidden;
+}
+
+div#grid {
+    display: flex;
+    border: 10px solid red;
+    flex-flow: row wrap;
+    width: 300px;
+}
