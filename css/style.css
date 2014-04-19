@@ -9,7 +9,6 @@ img.clip {
 div.viewport {
     position: relative;
     overflow: hidden;
-    border: 1px solid blue;
 }
 
 div#grid {
