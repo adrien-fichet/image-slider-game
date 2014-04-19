@@ -8,6 +8,7 @@ var Grid = function(imgSrc, numberOfSlices) {
     self.clips = [];
     self.positions = [];
     self.blankImagePos = null;
+    self.moveController = new MoveController(self.clips, self.numberOfSlices);
 
     self.resize = function() {
         var currentWidth = self.getWidth();
@@ -84,54 +85,6 @@ var Grid = function(imgSrc, numberOfSlices) {
     };
 
     self.moveImage = function(pos) {
-        var surroundingClips = self.getSurroundingClips(pos);
+        self.moveController.moveImage(pos);
     }
-
-    self.getSurroundingClips = function(pos) {
-        var surroundingClips = [];
-        var x = Math.floor(pos / self.numberOfSlices);
-        var y = pos % self.numberOfSlices;
-
-        if (x == 0) {
-            if (y == 0) {
-                surroundingClips.push(self.clips[pos + 1]);
-                surroundingClips.push(self.clips[pos + self.numberOfSlices]);
-            } else if (y == self.numberOfSlices - 1) {
-                surroundingClips.push(self.clips[pos - 1]);
-                surroundingClips.push(self.clips[pos + self.numberOfSlices]);
-            } else {
-                surroundingClips.push(self.clips[pos - 1]);
-                surroundingClips.push(self.clips[pos + 1]);
-                surroundingClips.push(self.clips[pos + self.numberOfSlices]);
-            }
-        } else if (x == self.numberOfSlices - 1) {
-            if (y == 0) {
-                surroundingClips.push(self.clips[pos + 1]);
-                surroundingClips.push(self.clips[pos - self.numberOfSlices]);
-            } else if (y == self.numberOfSlices - 1) {
-                surroundingClips.push(self.clips[pos - 1]);
-                surroundingClips.push(self.clips[pos - self.numberOfSlices]);
-            } else {
-                surroundingClips.push(self.clips[pos + 1]);
-                surroundingClips.push(self.clips[pos - 1]);
-                surroundingClips.push(self.clips[pos - self.numberOfSlices]);
-            }
-        } else if (y == 0) {
-            surroundingClips.push(self.clips[pos - self.numberOfSlices]);
-            surroundingClips.push(self.clips[pos + self.numberOfSlices]);
-            surroundingClips.push(self.clips[pos + 1]);
-        } else if (y == self.numberOfSlices - 1) {
-            surroundingClips.push(self.clips[pos - self.numberOfSlices]);
-            surroundingClips.push(self.clips[pos + self.numberOfSlices]);
-            surroundingClips.push(self.clips[pos - 1]);
-        } else {
-            surroundingClips.push(self.clips[pos + 1]);
-            surroundingClips.push(self.clips[pos - 1]);
-            surroundingClips.push(self.clips[pos + self.numberOfSlices]);
-            surroundingClips.push(self.clips[pos - self.numberOfSlices]);
-        }
-
-        return surroundingClips;
-    };
-
 };
