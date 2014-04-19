@@ -1,6 +1,6 @@
 img.clip {
     position: relative;
-    width: 300px;
+    width: 400px;
 }
 
 div.viewport {
@@ -12,5 +12,5 @@ div#grid {
     display: flex;
     border: 10px solid red;
     flex-flow: row wrap;
-    width: 300px;
+    width: 400px;
 }
