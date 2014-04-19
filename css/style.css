@@ -1,16 +1,18 @@
+body {
+    margin: 0px;
+}
+
 img.clip {
     position: relative;
-    width: 400px;
 }
 
 div.viewport {
     position: relative;
     overflow: hidden;
+    border: 1px solid blue;
 }
 
 div#grid {
     display: flex;
-    border: 10px solid red;
     flex-flow: row wrap;
-    width: 400px;
 }

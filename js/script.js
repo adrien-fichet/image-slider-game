@@ -5,11 +5,13 @@ function setViewport(img, x, y, width, height) {
     img.parentNode.style.height = height + 'px';
 }
 
-function createClipImage(imgSrc) {
+function createClipImage(imgSrc, gridWidth, gridHeight) {
     var img = document.createElement('img');
     img.setAttribute('src', imgSrc);
     img.setAttribute('alt', '');
     img.setAttribute('class', 'clip');
+    img.setAttribute('width', gridWidth + 'px'); // Original img size == #grid size
+    img.setAttribute('height', gridHeight + 'px');
     return img;
 }
 
@@ -20,32 +22,89 @@ function createImgViewport(img) {
     return div;
 }
 
-function setViewportOnImages(clipImages, n) {
-    var gridWidth = width(document.querySelector('div#grid'));
-    var clipWidth = Math.floor(gridWidth / n);
+function setViewportOnImages(clipImages, numberOfSlices, positions) {
+    var gridDimensions = dimensions(document.querySelector('div#grid'));
+    var clipWidth = Math.floor(gridDimensions.width / numberOfSlices);
+    var clipHeight = Math.floor(gridDimensions.height / numberOfSlices);
 
     for (var i=0; i < clipImages.length; i++) {
         setViewport(clipImages[i],
-                Math.floor(i / n) * clipWidth,
-                (i % n) * clipWidth,
+                Math.floor(positions[i] / numberOfSlices) * clipHeight,
+                (positions[i] % numberOfSlices) * clipWidth,
                 clipWidth,
-                clipWidth);
+                clipHeight);
     }
 }
 
-function width(element) {
-    return parseInt(window.getComputedStyle(element).width);
+function dimensions(element) {
+    return {width: parseInt(window.getComputedStyle(element).width),
+            height: parseInt(window.getComputedStyle(element).height)
+    };
 }
 
-function createSlices(imgSrc, n) {
-    for (var i=0; i < Math.pow(n, 2); i++) {
-        var img = createClipImage(imgSrc);
+function shuffle(a){
+    for (var j, x, i = a.length; i; j = parseInt(Math.random() * i), x = a[--i], a[i] = a[j], a[j] = x);
+}
+
+function createSlices(imgSrc, numberOfSlices, gridWidth, gridHeight) {
+    var positions = [];
+
+    for (var i=0; i < Math.pow(numberOfSlices, 2); i++) {
+        positions[i] = i;
+    }
+
+    shuffle(positions);
+
+    for (var i=0; i < positions.length; i++) {
+        var img = createClipImage(imgSrc, gridWidth, gridHeight);
         var imgViewport = createImgViewport(img);
-        document.querySelector('#grid').appendChild(imgViewport);
+        document.querySelector('div#grid').appendChild(imgViewport);
     }
 
-    var clipImages = document.querySelectorAll('.clip');
-    setViewportOnImages(clipImages, n);
+    var clipImages = document.querySelectorAll('img.clip');
+    setViewportOnImages(clipImages, numberOfSlices, positions);
 }
 
-createSlices('im/logo.svg', 3);
+function getGridDimension() {
+    return Math.min(window.innerWidth, window.innerHeight);
+}
+
+function removePreviousGridIfExists() {
+    var viewports = document.querySelectorAll('div.viewport');
+
+    for (var i=0; i < viewports.length; i++) {
+        document.querySelector('div#grid').removeChild(viewports[i]);
+    }
+}
+
+function main(gridWidth) {
+    var imgSrc = 'im/jquery-summit.png';
+    var numberOfSlices = 4;
+    document.querySelector('div#grid').style.width = gridWidth + 'px';
+    document.querySelector('div#grid').style.height = gridWidth + 'px';
+    removePreviousGridIfExists();
+    createSlices(imgSrc, numberOfSlices, gridWidth, gridWidth);
+    document.querySelector('div#grid').style.width = (gridWidth + 10) + 'px';
+    document.querySelector('div#grid').style.height = (gridWidth + 10) + 'px';
+}
+
+var previousGridDimension = getGridDimension();
+var resizing = false;
+window.onload = main(previousGridDimension);
+
+window.onresize = function() {
+    if (!resizing) {
+        resizing = true;
+
+        setTimeout(function() {
+            var currentGridDimension = getGridDimension();
+
+            if (currentGridDimension != previousGridDimension) {
+                previousGridDimension = currentGridDimension;
+                main(currentGridDimension);
+            }
+
+            resizing = false;
+        }, 500);
+    }
+};
