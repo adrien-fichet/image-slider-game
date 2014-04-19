@@ -18,5 +18,9 @@ var ImageSliderGame = function(imgSrc, numberOfSlices) {
             }, 500);
         }
     };
+
+    self.moveImage = function(pos) {
+        self.grid.moveImage(pos);
+    };
 };
 

@@ -1,31 +1,35 @@
-var ClipImage = function(imgSrc, width) {
+var ClipImage = function(imgSrc, width, pos) {
     var self = this;
     self.imgSrc = imgSrc;
     self.width = width;
+    self.pos = pos;
+    self.img = null;
+    self.viewport = null;
 
     self.createViewport = function() {
-        var viewport = document.createElement('div');
-        viewport.setAttribute('class', 'viewport');
-        viewport.appendChild(self.createClip());
-        return viewport;
+        self.createImage();
+        self.viewport = document.createElement('div');
+        self.viewport.setAttribute('class', 'viewport');
+        self.viewport.setAttribute('onclick', 'moveImage(' + self.pos + ')');
+        self.viewport.appendChild(self.img);
     };
 
-    self.createClip = function() {
-        var img = document.createElement('img');
-        img.setAttribute('src', self.imgSrc);
-        img.setAttribute('alt', '');
-        img.setAttribute('class', 'clip');
-        img.setAttribute('width', self.width + 'px');
-        img.setAttribute('height', self.width + 'px');
-        return img;
+    self.createImage = function() {
+        self.img = document.createElement('img');
+        self.img.setAttribute('src', self.imgSrc);
+        self.img.setAttribute('alt', '');
+        self.img.setAttribute('class', 'clip');
+        self.img.setAttribute('width', self.width + 'px');
+        self.img.setAttribute('height', self.width + 'px');
     };
 
-    self.setViewport = function(img, x, y, width, height) {
-        img.style.top = '-' + x + 'px';
-        img.style.left = '-' + y + 'px';
-        img.parentNode.style.width = width + 'px';
-        img.parentNode.style.height = height + 'px';
+    self.setViewport = function(x, y, width, height) {
+        self.img.style.top = '-' + x + 'px';
+        self.img.style.left = '-' + y + 'px';
+        self.img.parentNode.style.width = width + 'px';
+        self.img.parentNode.style.height = height + 'px';
     };
+
 };
 
 
