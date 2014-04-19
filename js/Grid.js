@@ -8,7 +8,7 @@ var Grid = function(imgSrc, numberOfSlices) {
     self.clips = [];
     self.positions = [];
     self.blankImagePos = null;
-    self.moveController = new MoveController(self.clips, self.numberOfSlices);
+    self.moveController = null;
 
     self.resize = function() {
         var currentWidth = self.getWidth();
@@ -38,6 +38,7 @@ var Grid = function(imgSrc, numberOfSlices) {
         self.randomizePositions();
         self.createSlices(width);
         self.hideOneImage();
+        self.moveController = new MoveController(self.clips, self.numberOfSlices, self.blankImagePos);
     };
 
     self.removePreviousGridIfExists = function() {
@@ -86,5 +87,5 @@ var Grid = function(imgSrc, numberOfSlices) {
 
     self.moveImage = function(pos) {
         self.moveController.moveImage(pos);
-    }
+    };
 };

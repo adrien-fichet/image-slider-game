@@ -1,11 +1,14 @@
-var MoveController = function(clips, numberOfSlices) {
+var MoveController = function(clips, numberOfSlices,blankImagePos) {
     var self = this;
+    self.grid = grid;
     self.clips = clips;
     self.numberOfSlices = numberOfSlices;
+    self.blankImagePos = blankImagePos;
 
     self.moveImage = function(pos) {
-        var surroundingClips = self.getSurroundingClips(pos);
-        console.log(surroundingClips);
+        if (self.moveIsValid(pos)) {
+            self.switchImages(pos);
+        }
     };
 
     self.getSurroundingClips = function(pos) {
@@ -53,6 +56,22 @@ var MoveController = function(clips, numberOfSlices) {
         }
 
         return surroundingClips;
+    };
+
+    self.moveIsValid = function(pos) {
+        var surroundingClips = self.getSurroundingClips(pos);
+
+        for (var i=0; i < surroundingClips.length; i++) {
+            if (surroundingClips[i].pos == self.blankImagePos) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    self.switchImages = function(pos) {
+        // TODO
     };
 
 };
