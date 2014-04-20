@@ -3,25 +3,32 @@ var MoveController = function(numberOfSlicesVertical, numberOfSlicesHorizontal) 
     self.numberOfSlicesVertical = numberOfSlicesVertical;
     self.numberOfSlicesHorizontal = numberOfSlicesHorizontal;
 
-    self.moveIfPossible = function(squares, clickedSquareIndex) {
+    self.moveIfPossible = function(squares, clickedSquareIndex, endAnimationCallback) {
         var possibleMove = self.possibleMove(squares, clickedSquareIndex);
 
         if (possibleMove != null) {
-            var blankSquareIndex = self.getBlankSquareIndex(squares);
-            var blankSquare = squares[blankSquareIndex];
-            var tmpClip = squares[clickedSquareIndex].clip;
-            var tmpClipIndex = squares[clickedSquareIndex].clipIndex;
-
-            squares[clickedSquareIndex].clip = blankSquare.clip;
-            squares[clickedSquareIndex].clipIndex = blankSquare.clipIndex;
-            squares[clickedSquareIndex].hidden = true;
-            blankSquare.clip = tmpClip;
-            blankSquare.clipIndex = tmpClipIndex;
-            blankSquare.hidden = false;
-
-            squares[clickedSquareIndex].draw();
-            blankSquare.draw();
+            squares[clickedSquareIndex].animateMove(possibleMove, function() {
+                    self.switchImages(squares, clickedSquareIndex);
+                    endAnimationCallback();
+            });
         }
+    };
+
+    self.switchImages = function(squares, clickedSquareIndex) {
+        var blankSquareIndex = self.getBlankSquareIndex(squares);
+        var blankSquare = squares[blankSquareIndex];
+        var tmpClip = squares[clickedSquareIndex].clip;
+        var tmpClipIndex = squares[clickedSquareIndex].clipIndex;
+
+        squares[clickedSquareIndex].clip = blankSquare.clip;
+        squares[clickedSquareIndex].clipIndex = blankSquare.clipIndex;
+        squares[clickedSquareIndex].hidden = true;
+        blankSquare.clip = tmpClip;
+        blankSquare.clipIndex = tmpClipIndex;
+        blankSquare.hidden = false;
+
+        squares[clickedSquareIndex].draw();
+        blankSquare.draw();
     };
 
     self.possibleMove = function(squares, index) {

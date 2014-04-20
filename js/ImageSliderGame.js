@@ -93,7 +93,11 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     self.onCanvasClick = function(event) {
         var mousePos = new Position(event.x, event.y);
         var clickedSquareIndex = self.getSquareIndex(mousePos);
-        self.moveController.moveIfPossible(self.squares, clickedSquareIndex);
+        self.moveController.moveIfPossible(self.squares, clickedSquareIndex, self.endAnimation);
+    };
+
+    self.endAnimation = function() {
+        self.updateSquares();
     };
 
     self.getSquareIndex = function(pos) {
