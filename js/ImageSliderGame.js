@@ -90,14 +90,10 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
         }
     };
 
-    self.onCanvasClick = function(e) {
-        var mousePos = new Position(e.x, e.y);
+    self.onCanvasClick = function(event) {
+        var mousePos = new Position(event.x, event.y);
         var clickedSquareIndex = self.getSquareIndex(mousePos);
-        var possibleMove = self.moveController.possibleMove(self.squares, clickedSquareIndex);
-
-        if (possibleMove != null) {
-            // TODO: switch images
-        }
+        self.moveController.moveIfPossible(self.squares, clickedSquareIndex);
     };
 
     self.getSquareIndex = function(pos) {

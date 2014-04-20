@@ -26,6 +26,8 @@ var Square = function(ctx, img, clipIndex) {
     };
 
     self.draw = function() {
+        self.ctx.clearRect(self.pos.x, self.pos.y, self.dimensions.width, self.dimensions.height);
+
         if (!self.hidden) {
             self.ctx.drawImage(
                     self.img,
