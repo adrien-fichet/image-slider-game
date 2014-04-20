@@ -1,18 +1,7 @@
 body {
     margin: 0px;
-    background-color: yellow;
 }
 
-img.clip {
-    position: relative;
-}
-
-div.viewport {
-    position: relative;
-    overflow: hidden;
-}
-
-div#grid {
-    display: flex;
-    flex-flow: row wrap;
+canvas {
+    display: block;
 }
