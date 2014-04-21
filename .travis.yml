@@ -19,6 +19,7 @@ after_script:
   - cd gh-pages
   - git rm -rf * .gitignore
   - cp -Rf $HOME/build/sniksnp/image-slider-game/minified.html $HOME/build/sniksnp/image-slider-game/im .
+  - mv minified.html index.html
   - git add -f .
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER"
   - git push -fq origin gh-pages > /dev/null

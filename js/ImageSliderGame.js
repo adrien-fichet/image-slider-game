@@ -35,7 +35,7 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
         self.shuffleSquares();
         self.updateSquares();
         self.canvas.addEventListener("click", self.onCanvasClick);
-    }
+    };
 
     self.setUpSquares = function() {
         var numberOfSquares = self.numberOfSlicesVertical * self.numberOfSlicesHorizontal;
@@ -91,7 +91,7 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     };
 
     self.onCanvasClick = function(event) {
-        var mousePos = new Position(event.x, event.y);
+        var mousePos = new Position(event.clientX, event.clientY);
         var clickedSquareIndex = self.getSquareIndex(mousePos);
         self.moveController.moveIfPossible(self.squares, clickedSquareIndex, self.endAnimation);
     };
