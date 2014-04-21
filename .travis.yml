@@ -8,6 +8,7 @@ env:
     - secure: CjZqqnPUed0WGqAetzL4ehL7JTRpP2PWkjxDRFERwsCN6BbfpjByZlXK+/i/654NbwC8e/xJlq/IA/+pmHB/PkehnW28kMdLwok+nQa2yiASNMZVEaDuvfCdjlkUyQ63rUc4LcjmYt2wmcRc6F3P5V+55q3bYE9r3IgOfvkV1eo=
 
 script:
+  - npm install -g grunt-cli
   - python py/minify.py
 
 after_script:
@@ -21,4 +22,3 @@ after_script:
   - git add -f .
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER"
   - git push -fq origin gh-pages > /dev/null
-  
