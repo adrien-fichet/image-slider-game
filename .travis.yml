@@ -5,7 +5,7 @@ python:
 
 env:
   global:
-    - secure: CjZqqnPUed0WGqAetzL4ehL7JTRpP2PWkjxDRFERwsCN6BbfpjByZlXK+/i/654NbwC8e/xJlq/IA/+pmHB/PkehnW28kMdLwok+nQa2yiASNMZVEaDuvfCdjlkUyQ63rUc4LcjmYt2wmcRc6F3P5V+55q3bYE9r3IgOfvkV1eo=
+    - secure: nyEE3CAtUUxfIxggMPaMjHSMxn5b2n2Bzcj1MdE8mgBIkNihAkZ6evXLJstspGPEGWyGIJMEEJOJZmVTxXfg4FbrM5TBdFZtLZbXjZTR4vJmxqH2nOlCVVclOlXSDdbOUtsLMz7d2yHYwObQ4MqB7z16y7Jf/o/apjZ2faP/dDM=
 
 script:
   - npm install -g grunt-cli
@@ -17,7 +17,7 @@ after_script:
   - git config --global user.name "${GIT_NAME}"
   - git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/sniksnp/image-slider-game gh-pages > /dev/null
   - cd gh-pages
-  - git rm -rf * .travis.yml .gitignore
+  - git rm -rf * .gitignore
   - cp -Rf $HOME/build/sniksnp/image-slider-game/minified.html $HOME/build/sniksnp/image-slider-game/im .
   - git add -f .
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER"
