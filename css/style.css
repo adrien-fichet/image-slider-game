@@ -1,7 +1,27 @@
 body {
     margin: 0px;
+    font-family: sans-serif;
+    background-color: white;
+    margin: auto;
+    max-width: 800px;
 }
 
 canvas {
     display: block;
+}
+
+#menu {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+#menu button {
+    height: 30px;
+    width: 30px;
+    margin: 10px;
+}
+
+#menu span {
+    color: black;
 }

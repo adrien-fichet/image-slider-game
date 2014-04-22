@@ -21,6 +21,7 @@ module.exports = function(grunt) {
                     'build/Clip.js',
                     'build/MoveController.js',
                     'build/Square.js',
+                    'build/Menu.js',
                     'build/ImageSliderGame.js',
                     'build/main.js'
                 ],

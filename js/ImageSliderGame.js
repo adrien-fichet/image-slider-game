@@ -9,6 +9,8 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     self.img = new Image();
     self.squareDimensions = null;
     self.moveController = new MoveController(numberOfSlicesVertical, numberOfSlicesHorizontal);
+    self.menu = new Menu();
+    self.maxWidth = parseInt(window.getComputedStyle(document.querySelector('body')).maxWidth);
 
     self.setUp = function() {
         self.resizeCanvas();
@@ -21,8 +23,13 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     };
 
     self.resizeCanvas = function() {
-        self.canvas.width = window.innerWidth;
-        self.canvas.height = window.innerHeight;
+        if (window.innerWidth < self.maxWidth) {
+            self.canvas.width = window.innerWidth;
+        } else {
+            self.canvas.width = self.maxWidth;
+        }
+
+        self.canvas.height = window.innerHeight - self.menu.height;
     };
 
     self.loadImage = function() {
@@ -34,7 +41,55 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
         self.setUpSquares();
         self.shuffleSquares();
         self.updateSquares();
-        self.canvas.addEventListener("click", self.onCanvasClick);
+        self.canvas.addEventListener('click', self.onCanvasClick);
+        self.setUpMenu();
+    };
+
+    self.setUpMenu = function() {
+        self.menu.setUp();
+        self.menu.decreaseNumberOfSlicesVerticalButton.addEventListener('click', self.decreaseNumberOfSlicesVertical);
+        self.menu.setNumberOfSlicesVerticalText(self.numberOfSlicesVertical);
+        self.menu.increaseNumberOfSlicesVerticalButton.addEventListener('click', self.increaseNumberOfSlicesVertical);
+        self.menu.decreaseNumberOfSlicesHorizontalButton.addEventListener('click', self.decreaseNumberOfSlicesHorizontal);
+        self.menu.setNumberOfSlicesHorizontalText(self.numberOfSlicesHorizontal);
+        self.menu.increaseNumberOfSlicesHorizontalButton.addEventListener('click', self.increaseNumberOfSlicesHorizontal);
+    };
+
+    self.decreaseNumberOfSlicesVertical = function() {
+        if ((self.numberOfSlicesVertical - 1) > 1) {
+            self.numberOfSlicesVertical--;
+            self.menu.setNumberOfSlicesVerticalText(self.numberOfSlicesVertical);
+            self.restart();
+        }
+    };
+
+    self.increaseNumberOfSlicesVertical = function() {
+        self.numberOfSlicesVertical++;
+        self.menu.setNumberOfSlicesVerticalText(self.numberOfSlicesVertical);
+        self.restart();
+    };
+
+    self.decreaseNumberOfSlicesHorizontal = function() {
+        if ((self.numberOfSlicesHorizontal - 1) > 1) {
+            self.numberOfSlicesHorizontal--;
+            self.menu.setNumberOfSlicesHorizontalText(self.numberOfSlicesHorizontal);
+            self.restart();
+        }
+    };
+
+    self.increaseNumberOfSlicesHorizontal = function() {
+        self.numberOfSlicesHorizontal++;
+        self.menu.setNumberOfSlicesHorizontalText(self.numberOfSlicesHorizontal);
+        self.restart();
+    };
+
+    self.restart = function() {
+        self.squares = [];
+        self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+        self.moveController = new MoveController(self.numberOfSlicesVertical, self.numberOfSlicesHorizontal);
+        self.setUpSquares();
+        self.shuffleSquares();
+        self.updateSquares();
     };
 
     self.setUpSquares = function() {
@@ -91,7 +146,7 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     };
 
     self.onCanvasClick = function(event) {
-        var mousePos = new Position(event.clientX, event.clientY);
+        var mousePos = new Position(event.clientX - self.canvas.offsetLeft, event.clientY - self.canvas.offsetTop);
         var clickedSquareIndex = self.getSquareIndex(mousePos);
         self.moveController.moveIfPossible(self.squares, clickedSquareIndex, self.endAnimation);
     };
