@@ -8,10 +8,12 @@ var Menu = function() {
     self.decNbOfTilesHButton = null;
     self.nbOfTilesHText = null;
     self.incNbOfTilesHButton = null;
+    self.restartButton = null;
 
     self.setUp = function() {
         self.addNbOfTilesVButtons();
         self.addNbOfTilesHButtons();
+        self.addRestartButton();
     };
 
     self.addNbOfTilesVButtons = function() {
@@ -46,6 +48,12 @@ var Menu = function() {
 
     self.setNbOfTilesHText = function(text) {
         self.nbOfTilesHText.innerHTML = text;
+    };
+
+    self.addRestartButton = function() {
+        self.restartButton = document.createElement('button');
+        self.restartButton.innerHTML = 'R';
+        self.div.appendChild(self.restartButton);
     };
 
 };

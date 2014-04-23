@@ -53,6 +53,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.menu.decNbOfTilesHButton.addEventListener('click', self.decNbOfTilesH);
         self.menu.setNbOfTilesHText(self.nbOfTilesH);
         self.menu.incNbOfTilesHButton.addEventListener('click', self.incNbOfTilesH);
+        self.menu.restartButton.addEventListener('click', self.restart);
     };
 
     self.decNbOfTilesV = function() {
