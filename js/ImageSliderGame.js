@@ -11,6 +11,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     self.moveController = new MoveController(self.nbOfTilesV, self.nbOfTilesH);
     self.menu = new Menu();
     self.maxWidth = parseInt(window.getComputedStyle(document.querySelector('body')).maxWidth);
+    self.blankTileColor = '#00ff00';
 
     self.setUp = function() {
         self.resizeCanvas();
@@ -139,6 +140,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
                     Math.floor(clipIndex / self.nbOfTilesV) * newClipSize.height
             );
             self.tilesSize = newSize;
+            self.tiles[i].setCtxFillStyle(self.blankTileColor);
             self.tiles[i].setPos(newPos);
             self.tiles[i].setSize(newSize);
             self.tiles[i].setClip(new Clip(newClipPos, newClipSize));
