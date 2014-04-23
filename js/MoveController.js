@@ -1,7 +1,7 @@
-var MoveController = function(numberOfSlicesVertical, numberOfSlicesHorizontal) {
+var MoveController = function(nbOfTilesV, nbOfTilesH) {
     var self = this;
-    self.numberOfSlicesVertical = numberOfSlicesVertical;
-    self.numberOfSlicesHorizontal = numberOfSlicesHorizontal;
+    self.nbOfTilesV = nbOfTilesV;
+    self.nbOfTilesH = nbOfTilesH;
 
     self.moveIfPossible = function(tiles, clickedTileIndex, endAnimationCallback) {
         var possibleMove = self.possibleMove(tiles, clickedTileIndex);
@@ -45,46 +45,46 @@ var MoveController = function(numberOfSlicesVertical, numberOfSlicesHorizontal) 
 
     self.getSurroundingTiles = function(tiles, index) {
         var surroundingTiles = [];
-        var x = Math.floor(index / self.numberOfSlicesVertical);
-        var y = index % self.numberOfSlicesVertical;
+        var x = Math.floor(index / self.nbOfTilesV);
+        var y = index % self.nbOfTilesV;
 
         if (x == 0) {
             if (y == 0) {
                 surroundingTiles.push(tiles[index + 1]);
-                surroundingTiles.push(tiles[index + self.numberOfSlicesVertical]);
-            } else if (y == self.numberOfSlicesVertical - 1) {
+                surroundingTiles.push(tiles[index + self.nbOfTilesV]);
+            } else if (y == self.nbOfTilesV - 1) {
                 surroundingTiles.push(tiles[index - 1]);
-                surroundingTiles.push(tiles[index + self.numberOfSlicesVertical]);
+                surroundingTiles.push(tiles[index + self.nbOfTilesV]);
             } else {
                 surroundingTiles.push(tiles[index - 1]);
                 surroundingTiles.push(tiles[index + 1]);
-                surroundingTiles.push(tiles[index + self.numberOfSlicesVertical]);
+                surroundingTiles.push(tiles[index + self.nbOfTilesV]);
             }
-        } else if (x == self.numberOfSlicesHorizontal - 1) {
+        } else if (x == self.nbOfTilesH - 1) {
             if (y == 0) {
                 surroundingTiles.push(tiles[index + 1]);
-                surroundingTiles.push(tiles[index - self.numberOfSlicesVertical]);
-            } else if (y == self.numberOfSlicesVertical - 1) {
+                surroundingTiles.push(tiles[index - self.nbOfTilesV]);
+            } else if (y == self.nbOfTilesV - 1) {
                 surroundingTiles.push(tiles[index - 1]);
-                surroundingTiles.push(tiles[index - self.numberOfSlicesVertical]);
+                surroundingTiles.push(tiles[index - self.nbOfTilesV]);
             } else {
                 surroundingTiles.push(tiles[index + 1]);
                 surroundingTiles.push(tiles[index - 1]);
-                surroundingTiles.push(tiles[index - self.numberOfSlicesVertical]);
+                surroundingTiles.push(tiles[index - self.nbOfTilesV]);
             }
         } else if (y == 0) {
-            surroundingTiles.push(tiles[index - self.numberOfSlicesVertical]);
-            surroundingTiles.push(tiles[index + self.numberOfSlicesVertical]);
+            surroundingTiles.push(tiles[index - self.nbOfTilesV]);
+            surroundingTiles.push(tiles[index + self.nbOfTilesV]);
             surroundingTiles.push(tiles[index + 1]);
-        } else if (y == self.numberOfSlicesVertical - 1) {
-            surroundingTiles.push(tiles[index - self.numberOfSlicesVertical]);
-            surroundingTiles.push(tiles[index + self.numberOfSlicesVertical]);
+        } else if (y == self.nbOfTilesV - 1) {
+            surroundingTiles.push(tiles[index - self.nbOfTilesV]);
+            surroundingTiles.push(tiles[index + self.nbOfTilesV]);
             surroundingTiles.push(tiles[index - 1]);
         } else {
             surroundingTiles.push(tiles[index + 1]);
             surroundingTiles.push(tiles[index - 1]);
-            surroundingTiles.push(tiles[index + self.numberOfSlicesVertical]);
-            surroundingTiles.push(tiles[index - self.numberOfSlicesVertical]);
+            surroundingTiles.push(tiles[index + self.nbOfTilesV]);
+            surroundingTiles.push(tiles[index - self.nbOfTilesV]);
         }
 
         return surroundingTiles;
@@ -92,10 +92,10 @@ var MoveController = function(numberOfSlicesVertical, numberOfSlicesHorizontal) 
     
     self.getMoveDirection = function(tiles, clickedTileIndex) {
         var blankTileIndex = self.getBlankTileIndex(tiles);
-        var x = Math.floor(clickedTileIndex / self.numberOfSlicesVertical);
-        var y = clickedTileIndex % self.numberOfSlicesVertical;
-        var xblank = Math.floor(blankTileIndex / self.numberOfSlicesVertical);
-        var yblank = blankTileIndex % self.numberOfSlicesVertical;
+        var x = Math.floor(clickedTileIndex / self.nbOfTilesV);
+        var y = clickedTileIndex % self.nbOfTilesV;
+        var xblank = Math.floor(blankTileIndex / self.nbOfTilesV);
+        var yblank = blankTileIndex % self.nbOfTilesV;
 
         if (x != xblank) {
             if (x < xblank) {

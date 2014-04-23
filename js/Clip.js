@@ -1,5 +1,5 @@
-var Clip = function(pos, dimensions) {
+var Clip = function(pos, size) {
     var self = this;
     self.pos = pos;
-    self.dimensions = dimensions;
+    self.size = size;
 };

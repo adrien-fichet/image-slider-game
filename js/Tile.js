@@ -5,7 +5,7 @@ var Tile = function(ctx, img, clipIndex) {
     self.img.onClick = self.onclick;
     self.clipIndex = clipIndex;
     self.clip = null;
-    self.dimensions = null;
+    self.size = null;
     self.pos = null;
     self.hidden = false;
     self.velocity = 1.5;
@@ -16,8 +16,8 @@ var Tile = function(ctx, img, clipIndex) {
         self.clip = clip;
     };
 
-    self.setDimensions = function(dimensions) {
-        self.dimensions = dimensions;
+    self.setSize = function(size) {
+        self.size = size;
     };
 
     self.setPos = function(pos) {
@@ -29,19 +29,19 @@ var Tile = function(ctx, img, clipIndex) {
     };
 
     self.draw = function() {
-        self.ctx.clearRect(self.pos.x, self.pos.y, self.dimensions.width, self.dimensions.height);
+        self.ctx.clearRect(self.pos.x, self.pos.y, self.size.width, self.size.height);
 
         if (!self.hidden) {
             self.ctx.drawImage(
                     self.img,
                     self.clip.pos.x,
                     self.clip.pos.y,
-                    self.clip.dimensions.width,
-                    self.clip.dimensions.height,
+                    self.clip.size.width,
+                    self.clip.size.height,
                     self.pos.x,
                     self.pos.y,
-                    self.dimensions.width,
-                    self.dimensions.height
+                    self.size.width,
+                    self.size.height
             );
         }
     };
@@ -89,54 +89,54 @@ var Tile = function(ctx, img, clipIndex) {
 
     self.updatePosRight = function(time, originalPos) {
         var newValue = originalPos.x + (time * (self.velocity + self.acceleration * time / 2));
-        self.exitAnimation = (newValue > originalPos.x + self.dimensions.width);
+        self.exitAnimation = (newValue > originalPos.x + self.size.width);
 
         if (self.exitAnimation) {
-            self.pos.x = originalPos.x + self.dimensions.width;
+            self.pos.x = originalPos.x + self.size.width;
         } else {
             self.pos.x = newValue;
         }
 
-        self.ctx.clearRect(originalPos.x, self.pos.y, self.dimensions.width, self.dimensions.height);
+        self.ctx.clearRect(originalPos.x, self.pos.y, self.size.width, self.size.height);
     };
 
     self.updatePosLeft = function(time, originalPos) {
         var newValue = originalPos.x - (time * (self.velocity + self.acceleration * time / 2));
-        self.exitAnimation = (newValue < originalPos.x - self.dimensions.width);
+        self.exitAnimation = (newValue < originalPos.x - self.size.width);
 
         if (self.exitAnimation) {
-            self.pos.x = originalPos.x - self.dimensions.width;
+            self.pos.x = originalPos.x - self.size.width;
         } else {
             self.pos.x = newValue;
         }
 
-        self.ctx.clearRect(originalPos.x, self.pos.y, self.dimensions.width, self.dimensions.height);
+        self.ctx.clearRect(originalPos.x, self.pos.y, self.size.width, self.size.height);
     };
 
     self.updatePosUp = function(time, originalPos) {
         var newValue = originalPos.y - (time * (self.velocity + self.acceleration * time / 2));
-        self.exitAnimation = newValue < (originalPos.y - self.dimensions.height);
+        self.exitAnimation = newValue < (originalPos.y - self.size.height);
 
         if (self.exitAnimation) {
-            self.pos.y = originalPos.y - self.dimensions.height;
+            self.pos.y = originalPos.y - self.size.height;
         } else {
             self.pos.y = newValue;
         }
 
-        self.ctx.clearRect(self.pos.x, originalPos.y, self.dimensions.width, self.dimensions.height);
+        self.ctx.clearRect(self.pos.x, originalPos.y, self.size.width, self.size.height);
     };
 
     self.updatePosDown = function(time, originalPos) {
         var newValue = originalPos.y + (time * (self.velocity + self.acceleration * time / 2));
-        self.exitAnimation = newValue > (originalPos.y + self.dimensions.height);
+        self.exitAnimation = newValue > (originalPos.y + self.size.height);
 
         if (self.exitAnimation) {
-            self.pos.y = originalPos.y + self.dimensions.height;
+            self.pos.y = originalPos.y + self.size.height;
         } else {
             self.pos.y = newValue;
         }
 
-        self.ctx.clearRect(self.pos.x, originalPos.y, self.dimensions.width, self.dimensions.height);
+        self.ctx.clearRect(self.pos.x, originalPos.y, self.size.width, self.size.height);
     };
 
 };

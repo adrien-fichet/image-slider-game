@@ -16,7 +16,7 @@ module.exports = function(grunt) {
             build: {
                 src: [
                     'build/Directions.js',
-                    'build/Dimensions.js',
+                    'build/Size.js',
                     'build/Position.js',
                     'build/Clip.js',
                     'build/MoveController.js',

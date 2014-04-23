@@ -1,14 +1,14 @@
-var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHorizontal) {
+var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     var self = this;
     self.imgSrc = imgSrc;
-    self.numberOfSlicesVertical = numberOfSlicesVertical;
-    self.numberOfSlicesHorizontal = numberOfSlicesHorizontal;
+    self.nbOfTilesV = nbOfTilesV;
+    self.nbOfTilesH = nbOfTilesH;
     self.tiles = [];
     self.canvas = document.querySelector('canvas');
     self.ctx = self.canvas.getContext('2d');
     self.img = new Image();
-    self.tilesDimensions = null;
-    self.moveController = new MoveController(numberOfSlicesVertical, numberOfSlicesHorizontal);
+    self.tilesSize = null;
+    self.moveController = new MoveController(self.nbOfTilesV, self.nbOfTilesH);
     self.menu = new Menu();
     self.maxWidth = parseInt(window.getComputedStyle(document.querySelector('body')).maxWidth);
 
@@ -47,53 +47,53 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
 
     self.setUpMenu = function() {
         self.menu.setUp();
-        self.menu.decreaseNumberOfSlicesVerticalButton.addEventListener('click', self.decreaseNumberOfSlicesVertical);
-        self.menu.setNumberOfSlicesVerticalText(self.numberOfSlicesVertical);
-        self.menu.increaseNumberOfSlicesVerticalButton.addEventListener('click', self.increaseNumberOfSlicesVertical);
-        self.menu.decreaseNumberOfSlicesHorizontalButton.addEventListener('click', self.decreaseNumberOfSlicesHorizontal);
-        self.menu.setNumberOfSlicesHorizontalText(self.numberOfSlicesHorizontal);
-        self.menu.increaseNumberOfSlicesHorizontalButton.addEventListener('click', self.increaseNumberOfSlicesHorizontal);
+        self.menu.decNbOfTilesVButton.addEventListener('click', self.decNbOfTilesV);
+        self.menu.setNbOfTilesVText(self.nbOfTilesV);
+        self.menu.incNbOfTilesVButton.addEventListener('click', self.incNbOfTilesV);
+        self.menu.decNbOfTilesHButton.addEventListener('click', self.decNbOfTilesH);
+        self.menu.setNbOfTilesHText(self.nbOfTilesH);
+        self.menu.incNbOfTilesHButton.addEventListener('click', self.incNbOfTilesH);
     };
 
-    self.decreaseNumberOfSlicesVertical = function() {
-        if ((self.numberOfSlicesVertical - 1) > 1) {
-            self.numberOfSlicesVertical--;
-            self.menu.setNumberOfSlicesVerticalText(self.numberOfSlicesVertical);
+    self.decNbOfTilesV = function() {
+        if ((self.nbOfTilesV - 1) > 1) {
+            self.nbOfTilesV--;
+            self.menu.setNbOfTilesVText(self.nbOfTilesV);
             self.restart();
         }
     };
 
-    self.increaseNumberOfSlicesVertical = function() {
-        self.numberOfSlicesVertical++;
-        self.menu.setNumberOfSlicesVerticalText(self.numberOfSlicesVertical);
+    self.incNbOfTilesV = function() {
+        self.nbOfTilesV++;
+        self.menu.setNbOfTilesVText(self.nbOfTilesV);
         self.restart();
     };
 
-    self.decreaseNumberOfSlicesHorizontal = function() {
-        if ((self.numberOfSlicesHorizontal - 1) > 1) {
-            self.numberOfSlicesHorizontal--;
-            self.menu.setNumberOfSlicesHorizontalText(self.numberOfSlicesHorizontal);
+    self.decNbOfTilesH = function() {
+        if ((self.nbOfTilesH - 1) > 1) {
+            self.nbOfTilesH--;
+            self.menu.setNbOfTilesHText(self.nbOfTilesH);
             self.restart();
         }
     };
 
-    self.increaseNumberOfSlicesHorizontal = function() {
-        self.numberOfSlicesHorizontal++;
-        self.menu.setNumberOfSlicesHorizontalText(self.numberOfSlicesHorizontal);
+    self.incNbOfTilesH = function() {
+        self.nbOfTilesH++;
+        self.menu.setNbOfTilesHText(self.nbOfTilesH);
         self.restart();
     };
 
     self.restart = function() {
         self.tiles = [];
         self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-        self.moveController = new MoveController(self.numberOfSlicesVertical, self.numberOfSlicesHorizontal);
+        self.moveController = new MoveController(self.nbOfTilesV, self.nbOfTilesH);
         self.setUpTiles();
         self.shuffleTiles();
         self.updateTiles();
     };
 
     self.setUpTiles = function() {
-        var nbOfTiles = self.numberOfSlicesVertical * self.numberOfSlicesHorizontal;
+        var nbOfTiles = self.nbOfTilesV * self.nbOfTilesH;
         var randomTile = parseInt(Math.random() * nbOfTiles);
 
         for (var i=0; i < nbOfTiles; i++) {
@@ -121,26 +121,26 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
         for (var i=0; i < self.tiles.length; i++) {
             var clipIndex = self.tiles[i].clipIndex;
 
-            var newDimensions = new Dimensions(
-                    Math.floor(self.canvas.width / self.numberOfSlicesVertical),
-                    Math.floor(self.canvas.height / self.numberOfSlicesHorizontal)
+            var newSize = new Size(
+                    Math.floor(self.canvas.width / self.nbOfTilesV),
+                    Math.floor(self.canvas.height / self.nbOfTilesH)
             );
             var newPos = new Position(
-                    (i % self.numberOfSlicesVertical) * newDimensions.width,
-                    Math.floor(i / self.numberOfSlicesVertical) * newDimensions.height
+                    (i % self.nbOfTilesV) * newSize.width,
+                    Math.floor(i / self.nbOfTilesV) * newSize.height
             );
-            var newClipDimensions = new Dimensions(
-                    Math.floor(self.img.width / self.numberOfSlicesVertical),
-                    Math.floor(self.img.height / self.numberOfSlicesHorizontal)
+            var newClipSize = new Size(
+                    Math.floor(self.img.width / self.nbOfTilesV),
+                    Math.floor(self.img.height / self.nbOfTilesH)
             );
             var newClipPos = new Position(
-                    (clipIndex % self.numberOfSlicesVertical) * newClipDimensions.width,
-                    Math.floor(clipIndex / self.numberOfSlicesVertical) * newClipDimensions.height
+                    (clipIndex % self.nbOfTilesV) * newClipSize.width,
+                    Math.floor(clipIndex / self.nbOfTilesV) * newClipSize.height
             );
-            self.tilesDimensions = newDimensions;
+            self.tilesSize = newSize;
             self.tiles[i].setPos(newPos);
-            self.tiles[i].setDimensions(newDimensions);
-            self.tiles[i].setClip(new Clip(newClipPos, newClipDimensions));
+            self.tiles[i].setSize(newSize);
+            self.tiles[i].setClip(new Clip(newClipPos, newClipSize));
             self.tiles[i].draw();
         }
     };
@@ -156,9 +156,9 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     };
 
     self.getTileIndex = function(pos) {
-        var x = Math.floor(pos.x / self.tilesDimensions.width);
-        var y = Math.floor(pos.y / self.tilesDimensions.height);
-        return x + y * self.numberOfSlicesVertical;
+        var x = Math.floor(pos.x / self.tilesSize.width);
+        var y = Math.floor(pos.y / self.tilesSize.height);
+        return x + y * self.nbOfTilesV;
     };
 
 };

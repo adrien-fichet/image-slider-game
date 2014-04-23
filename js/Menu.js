@@ -2,50 +2,50 @@ var Menu = function() {
     var self = this;
     self.div = document.querySelector('#menu')
     self.height = parseInt(window.getComputedStyle(self.div).height);
-    self.decreaseNumberOfSlicesVerticalButton = null;
-    self.numberOfSlicesVerticalText = null;
-    self.increaseNumberOfSlicesVerticalButton = null;
-    self.decreaseNumberOfSlicesHorizontalButton = null;
-    self.numberOfSlicesHorizontalText = null;
-    self.increaseNumberOfSlicesHorizontalButton = null;
+    self.decNbOfTilesVButton = null;
+    self.nbOfTilesVText = null;
+    self.incNbOfTilesVButton = null;
+    self.decNbOfTilesHButton = null;
+    self.nbOfTilesHText = null;
+    self.incNbOfTilesHButton = null;
 
     self.setUp = function() {
-        self.addNumberOfSlicesVerticalButtons();
-        self.addNumberOfSlicesHorizontalButtons();
+        self.addNbOfTilesVButtons();
+        self.addNbOfTilesHButtons();
     };
 
-    self.addNumberOfSlicesVerticalButtons = function() {
-        self.decreaseNumberOfSlicesVerticalButton = document.createElement('button');
-        self.decreaseNumberOfSlicesVerticalButton.innerHTML = '-';
-        self.div.appendChild(self.decreaseNumberOfSlicesVerticalButton);
+    self.addNbOfTilesVButtons = function() {
+        self.decNbOfTilesVButton = document.createElement('button');
+        self.decNbOfTilesVButton.innerHTML = '-';
+        self.div.appendChild(self.decNbOfTilesVButton);
 
-        self.numberOfSlicesVerticalText = document.createElement('span');
-        self.div.appendChild(self.numberOfSlicesVerticalText);
+        self.nbOfTilesVText = document.createElement('span');
+        self.div.appendChild(self.nbOfTilesVText);
 
-        self.increaseNumberOfSlicesVerticalButton = document.createElement('button');
-        self.increaseNumberOfSlicesVerticalButton.innerHTML = '+';
-        self.div.appendChild(self.increaseNumberOfSlicesVerticalButton);
+        self.incNbOfTilesVButton = document.createElement('button');
+        self.incNbOfTilesVButton.innerHTML = '+';
+        self.div.appendChild(self.incNbOfTilesVButton);
     };
 
-    self.setNumberOfSlicesVerticalText = function(text) {
-        self.numberOfSlicesVerticalText.innerHTML = text;
+    self.setNbOfTilesVText = function(text) {
+        self.nbOfTilesVText.innerHTML = text;
     };
 
-    self.addNumberOfSlicesHorizontalButtons = function() {
-        self.decreaseNumberOfSlicesHorizontalButton = document.createElement('button');
-        self.decreaseNumberOfSlicesHorizontalButton.innerHTML = '-';
-        self.div.appendChild(self.decreaseNumberOfSlicesHorizontalButton);
+    self.addNbOfTilesHButtons = function() {
+        self.decNbOfTilesHButton = document.createElement('button');
+        self.decNbOfTilesHButton.innerHTML = '-';
+        self.div.appendChild(self.decNbOfTilesHButton);
 
-        self.numberOfSlicesHorizontalText = document.createElement('span');
-        self.div.appendChild(self.numberOfSlicesHorizontalText);
+        self.nbOfTilesHText = document.createElement('span');
+        self.div.appendChild(self.nbOfTilesHText);
 
-        self.increaseNumberOfSlicesHorizontalButton = document.createElement('button');
-        self.increaseNumberOfSlicesHorizontalButton.innerHTML = '+';
-        self.div.appendChild(self.increaseNumberOfSlicesHorizontalButton);
+        self.incNbOfTilesHButton = document.createElement('button');
+        self.incNbOfTilesHButton.innerHTML = '+';
+        self.div.appendChild(self.incNbOfTilesHButton);
     };
 
-    self.setNumberOfSlicesHorizontalText = function(text) {
-        self.numberOfSlicesHorizontalText.innerHTML = text;
+    self.setNbOfTilesHText = function(text) {
+        self.nbOfTilesHText.innerHTML = text;
     };
 
 };
