@@ -3,11 +3,11 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     self.imgSrc = imgSrc;
     self.numberOfSlicesVertical = numberOfSlicesVertical;
     self.numberOfSlicesHorizontal = numberOfSlicesHorizontal;
-    self.squares = [];
+    self.tiles = [];
     self.canvas = document.querySelector('canvas');
     self.ctx = self.canvas.getContext('2d');
     self.img = new Image();
-    self.squareDimensions = null;
+    self.tilesDimensions = null;
     self.moveController = new MoveController(numberOfSlicesVertical, numberOfSlicesHorizontal);
     self.menu = new Menu();
     self.maxWidth = parseInt(window.getComputedStyle(document.querySelector('body')).maxWidth);
@@ -19,7 +19,7 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
 
     self.resize = function() {
         self.resizeCanvas();
-        self.updateSquares();
+        self.updateTiles();
     };
 
     self.resizeCanvas = function() {
@@ -38,9 +38,9 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     };
 
     self.startGame = function() {
-        self.setUpSquares();
-        self.shuffleSquares();
-        self.updateSquares();
+        self.setUpTiles();
+        self.shuffleTiles();
+        self.updateTiles();
         self.canvas.addEventListener('click', self.onCanvasClick);
         self.setUpMenu();
     };
@@ -84,42 +84,42 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
     };
 
     self.restart = function() {
-        self.squares = [];
+        self.tiles = [];
         self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
         self.moveController = new MoveController(self.numberOfSlicesVertical, self.numberOfSlicesHorizontal);
-        self.setUpSquares();
-        self.shuffleSquares();
-        self.updateSquares();
+        self.setUpTiles();
+        self.shuffleTiles();
+        self.updateTiles();
     };
 
-    self.setUpSquares = function() {
-        var numberOfSquares = self.numberOfSlicesVertical * self.numberOfSlicesHorizontal;
-        var randomSquare = parseInt(Math.random() * numberOfSquares);
+    self.setUpTiles = function() {
+        var nbOfTiles = self.numberOfSlicesVertical * self.numberOfSlicesHorizontal;
+        var randomTile = parseInt(Math.random() * nbOfTiles);
 
-        for (var i=0; i < numberOfSquares; i++) {
-            var square = new Square(self.ctx, self.img, i);
+        for (var i=0; i < nbOfTiles; i++) {
+            var tile = new Tile(self.ctx, self.img, i);
 
-            if (i == randomSquare) {
-                square.setHidden(true);
+            if (i == randomTile) {
+                tile.setHidden(true);
             }
 
-            self.squares.push(square);
+            self.tiles.push(tile);
         }
     };
 
-    self.shuffleSquares = function(a) {
-        for (var j, x, i = self.squares.length;
+    self.shuffleTiles = function(a) {
+        for (var j, x, i = self.tiles.length;
                 i;
                 j = parseInt(Math.random() * i),
-                x = self.squares[--i],
-                self.squares[i] = self.squares[j],
-                self.squares[j] = x
+                x = self.tiles[--i],
+                self.tiles[i] = self.tiles[j],
+                self.tiles[j] = x
         );
     };
 
-    self.updateSquares = function() {
-        for (var i=0; i < self.squares.length; i++) {
-            var clipIndex = self.squares[i].clipIndex;
+    self.updateTiles = function() {
+        for (var i=0; i < self.tiles.length; i++) {
+            var clipIndex = self.tiles[i].clipIndex;
 
             var newDimensions = new Dimensions(
                     Math.floor(self.canvas.width / self.numberOfSlicesVertical),
@@ -137,27 +137,27 @@ var ImageSliderGame = function(imgSrc, numberOfSlicesVertical, numberOfSlicesHor
                     (clipIndex % self.numberOfSlicesVertical) * newClipDimensions.width,
                     Math.floor(clipIndex / self.numberOfSlicesVertical) * newClipDimensions.height
             );
-            self.squareDimensions = newDimensions;
-            self.squares[i].setPos(newPos);
-            self.squares[i].setDimensions(newDimensions);
-            self.squares[i].setClip(new Clip(newClipPos, newClipDimensions));
-            self.squares[i].draw();
+            self.tilesDimensions = newDimensions;
+            self.tiles[i].setPos(newPos);
+            self.tiles[i].setDimensions(newDimensions);
+            self.tiles[i].setClip(new Clip(newClipPos, newClipDimensions));
+            self.tiles[i].draw();
         }
     };
 
     self.onCanvasClick = function(event) {
         var mousePos = new Position(event.clientX - self.canvas.offsetLeft, event.clientY - self.canvas.offsetTop);
-        var clickedSquareIndex = self.getSquareIndex(mousePos);
-        self.moveController.moveIfPossible(self.squares, clickedSquareIndex, self.endAnimation);
+        var clickedTileIndex = self.getTileIndex(mousePos);
+        self.moveController.moveIfPossible(self.tiles, clickedTileIndex, self.endAnimation);
     };
 
     self.endAnimation = function() {
-        self.updateSquares();
+        self.updateTiles();
     };
 
-    self.getSquareIndex = function(pos) {
-        var x = Math.floor(pos.x / self.squareDimensions.width);
-        var y = Math.floor(pos.y / self.squareDimensions.height);
+    self.getTileIndex = function(pos) {
+        var x = Math.floor(pos.x / self.tilesDimensions.width);
+        var y = Math.floor(pos.y / self.tilesDimensions.height);
         return x + y * self.numberOfSlicesVertical;
     };
 

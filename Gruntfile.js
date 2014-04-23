@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                     'build/Position.js',
                     'build/Clip.js',
                     'build/MoveController.js',
-                    'build/Square.js',
+                    'build/Tile.js',
                     'build/Menu.js',
                     'build/ImageSliderGame.js',
                     'build/main.js'

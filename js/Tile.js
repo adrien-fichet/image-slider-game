@@ -1,4 +1,4 @@
-var Square = function(ctx, img, clipIndex) {
+var Tile = function(ctx, img, clipIndex) {
     var self = this;
     self.ctx = ctx;
     self.img = img;
