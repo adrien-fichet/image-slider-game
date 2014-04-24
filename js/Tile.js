@@ -11,6 +11,7 @@ var Tile = function(ctx, img, clipIndex) {
     self.velocity = 1.5;
     self.acceleration = 0.001;
     self.exitAnimation = null;
+    self.padding = 5;
 
     self.setClip = function(clip) {
         self.clip = clip;
@@ -38,10 +39,10 @@ var Tile = function(ctx, img, clipIndex) {
                     self.clip.pos.y,
                     self.clip.size.width,
                     self.clip.size.height,
-                    self.pos.x,
-                    self.pos.y,
-                    self.size.width,
-                    self.size.height
+                    self.pos.x + self.padding,
+                    self.pos.y + self.padding,
+                    self.size.width - self.padding * 2,
+                    self.size.height - self.padding * 2
             );
         }
     };
