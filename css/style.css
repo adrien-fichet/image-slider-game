@@ -1,7 +1,6 @@
 body {
     margin: 0px;
     font-family: sans-serif;
-    background-color: white;
     margin: auto;
     max-width: 800px;
 }
@@ -20,8 +19,11 @@ canvas {
     height: 30px;
     width: 30px;
     margin: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #dddddd;
+    color: #dddddd;
 }
 
 #menu span {
-    color: black;
+    color: #dddddd;
 }

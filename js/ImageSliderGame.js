@@ -11,11 +11,12 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     self.moveController = new MoveController(self.nbOfTilesV, self.nbOfTilesH);
     self.menu = new Menu();
     self.maxWidth = parseInt(window.getComputedStyle(document.querySelector('body')).maxWidth);
-    self.blankTileColor = '#00ff00';
+    self.bgImg = new Image();
+    self.bgImgSrc = 'im/bg.jpg';
 
     self.setUp = function() {
         self.resizeCanvas();
-        self.loadImage();
+        self.loadGameImages();
     };
 
     self.resize = function() {
@@ -33,17 +34,31 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.canvas.height = window.innerHeight - self.menu.height;
     };
 
-    self.loadImage = function() {
+    self.loadGameImages = function() {
         self.img.src = self.imgSrc;
-        self.img.onload = self.startGame;
+        self.img.onload = function() {
+            self.imgLoaded(self.img);
+        };
+        self.bgImg.src = self.bgImgSrc;
+        self.bgImg.onload = function() {
+            document.querySelector('body').style.backgroundImage = 'url(' + self.bgImgSrc + ')';
+            self.imgLoaded(self.bgImg);
+        };
+    };
+
+    self.imgLoaded = function(img) {
+        img.loaded = true;
+        self.startGame();
     };
 
     self.startGame = function() {
-        self.setUpTiles();
-        self.shuffleTiles();
-        self.updateTiles();
-        self.canvas.addEventListener('click', self.onCanvasClick);
-        self.setUpMenu();
+        if (self.img.loaded && self.bgImg.loaded) {
+            self.setUpTiles();
+            self.shuffleTiles();
+            self.updateTiles();
+            self.canvas.addEventListener('click', self.onCanvasClick);
+            self.setUpMenu();
+        }
     };
 
     self.setUpMenu = function() {
@@ -140,7 +155,6 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
                     Math.floor(clipIndex / self.nbOfTilesV) * newClipSize.height
             );
             self.tilesSize = newSize;
-            self.tiles[i].setCtxFillStyle(self.blankTileColor);
             self.tiles[i].setPos(newPos);
             self.tiles[i].setSize(newSize);
             self.tiles[i].setClip(new Clip(newClipPos, newClipSize));

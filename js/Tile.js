@@ -28,10 +28,6 @@ var Tile = function(ctx, img, clipIndex) {
         self.hidden = value;
     };
 
-    self.setCtxFillStyle = function(color) {
-        self.ctx.fillStyle = color;
-    };
-
     self.draw = function() {
         self.ctx.clearRect(self.pos.x, self.pos.y, self.size.width, self.size.height);
 
@@ -47,8 +43,6 @@ var Tile = function(ctx, img, clipIndex) {
                     self.size.width,
                     self.size.height
             );
-        } else {
-            self.ctx.fillRect(self.pos.x, self.pos.y, self.size.width, self.size.height);
         }
     };
 
@@ -103,7 +97,7 @@ var Tile = function(ctx, img, clipIndex) {
             self.pos.x = newValue;
         }
 
-        self.ctx.fillRect(originalPos.x, self.pos.y, self.size.width, self.size.height);
+        self.ctx.clearRect(originalPos.x, self.pos.y, self.size.width, self.size.height);
     };
 
     self.updatePosLeft = function(time, originalPos) {
@@ -116,7 +110,7 @@ var Tile = function(ctx, img, clipIndex) {
             self.pos.x = newValue;
         }
 
-        self.ctx.fillRect(originalPos.x, self.pos.y, self.size.width, self.size.height);
+        self.ctx.clearRect(originalPos.x, self.pos.y, self.size.width, self.size.height);
     };
 
     self.updatePosUp = function(time, originalPos) {
@@ -129,7 +123,7 @@ var Tile = function(ctx, img, clipIndex) {
             self.pos.y = newValue;
         }
 
-        self.ctx.fillRect(self.pos.x, originalPos.y, self.size.width, self.size.height);
+        self.ctx.clearRect(self.pos.x, originalPos.y, self.size.width, self.size.height);
     };
 
     self.updatePosDown = function(time, originalPos) {
@@ -142,7 +136,7 @@ var Tile = function(ctx, img, clipIndex) {
             self.pos.y = newValue;
         }
 
-        self.ctx.fillRect(self.pos.x, originalPos.y, self.size.width, self.size.height);
+        self.ctx.clearRect(self.pos.x, originalPos.y, self.size.width, self.size.height);
     };
 
 };
