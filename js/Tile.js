@@ -140,4 +140,13 @@ var Tile = function(ctx, img, clipIndex) {
         self.ctx.clearRect(self.pos.x, originalPos.y, self.size.width, self.size.height);
     };
 
+    self.clear = function() {
+        self.ctx.clearRect(
+                self.pos.x + self.padding,
+                self.pos.y + self.padding,
+                self.size.width - self.padding * 2,
+                self.size.height - self.padding * 2
+        );
+    };
+
 };

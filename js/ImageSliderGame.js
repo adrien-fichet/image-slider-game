@@ -13,6 +13,11 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     self.maxWidth = parseInt(window.getComputedStyle(document.querySelector('body')).maxWidth);
     self.bgImg = new Image();
     self.bgImgSrc = 'im/bg.jpg';
+    self.video = document.querySelector('video');
+    self.localMediaStream = null;
+    self.drawCameraImageInterval = null;
+    self.showingCamera = false;
+    self.cameraCanvas = null;
 
     self.setUp = function() {
         self.resizeCanvas();
@@ -32,6 +37,11 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         }
 
         self.canvas.height = window.innerHeight - self.menu.height;
+
+        if (self.cameraCanvas) {
+            self.cameraCanvas.width = self.canvas.width;
+            self.cameraCanvas.height = self.canvas.height;
+        }
     };
 
     self.loadGameImages = function() {
@@ -70,6 +80,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.menu.setNbOfTilesHText(self.nbOfTilesH);
         self.menu.incNbOfTilesHButton.addEventListener('click', self.incNbOfTilesH);
         self.menu.restartButton.addEventListener('click', self.restart);
+        self.menu.photoButton.addEventListener('click', self.showCamera);
     };
 
     self.decNbOfTilesV = function() {
@@ -97,6 +108,60 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     self.incNbOfTilesH = function() {
         self.nbOfTilesH++;
         self.menu.setNbOfTilesHText(self.nbOfTilesH);
+        self.restart();
+    };
+
+    self.showCamera = function() {
+        self.menu.photoButton.removeEventListener('click', self.showCamera);
+        self.menu.photoButton.addEventListener('click', self.takePicture);
+        self.menu.showText('Loading camera...');
+
+        navigator.webkitGetUserMedia({video: true}, function(stream) {
+            self.video.src = window.URL.createObjectURL(stream);
+            self.localMediaStream = stream;
+            self.video.addEventListener('playing', self.drawCameraImage);
+        }, function() {
+            self.menu.hideText();
+            self.menu.removePhotoButton();
+        });
+    };
+
+    self.drawCameraImage = function() {
+        self.video.removeEventListener('playing', self.drawCameraImage);
+        self.menu.hideText();
+        self.cameraCanvas = document.createElement('canvas');
+        self.cameraCanvas.setAttribute('id', 'cameraCanvas');
+        document.querySelector('body').appendChild(self.cameraCanvas);
+        var cameraCtx = self.cameraCanvas.getContext('2d');
+        self.cameraCanvas.width = self.canvas.width;
+        self.cameraCanvas.height = self.canvas.height;
+        self.showingCamera = true;
+
+        self.ctx.fillStyle = self.ctx.createPattern(self.bgImg, 'repeat');
+        self.ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
+
+        for (var i=0; i < self.tiles.length; i++) {
+            self.tiles[i].clear();
+        }
+
+        self.drawCameraImageInterval = setInterval(function() {
+            cameraCtx.drawImage(self.video, 0, 0, self.cameraCanvas.width, self.cameraCanvas.height);
+        }, 250);
+    };
+
+    self.takePicture = function() {
+        self.menu.photoButton.removeEventListener('click', self.takePicture);
+        self.menu.photoButton.addEventListener('click', self.showCamera);
+        self.video.pause();
+        self.video.src = null;
+        self.localMediaStream.stop();
+        self.localMediaStream = null;
+        clearInterval(self.drawCameraImageInterval);
+        self.img = new Image();
+        self.img.src = self.cameraCanvas.toDataURL('image/png');
+        document.querySelector('body').removeChild(self.cameraCanvas);
+        self.cameraCanvas = null;
+        self.showingCamera = false;
         self.restart();
     };
 
@@ -135,6 +200,11 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     };
 
     self.updateTiles = function() {
+        if (self.showingCamera) {
+            self.ctx.fillStyle = self.ctx.createPattern(self.bgImg, 'repeat');
+            self.ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
+        }
+
         for (var i=0; i < self.tiles.length; i++) {
             var clipIndex = self.tiles[i].clipIndex;
 
@@ -158,7 +228,12 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
             self.tiles[i].setPos(newPos);
             self.tiles[i].setSize(newSize);
             self.tiles[i].setClip(new Clip(newClipPos, newClipSize));
-            self.tiles[i].draw();
+
+            if (self.showingCamera) {
+                self.tiles[i].clear();
+            } else {
+                self.tiles[i].draw();
+            }
         }
     };
 

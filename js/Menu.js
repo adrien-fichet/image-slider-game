@@ -2,29 +2,28 @@ var Menu = function() {
     var self = this;
     self.div = document.querySelector('#menu')
     self.height = parseInt(window.getComputedStyle(self.div).height);
-    self.decNbOfTilesVButton = null;
-    self.nbOfTilesVText = null;
-    self.incNbOfTilesVButton = null;
-    self.decNbOfTilesHButton = null;
-    self.nbOfTilesHText = null;
-    self.incNbOfTilesHButton = null;
-    self.restartButton = null;
+    self.decNbOfTilesVButton = document.createElement('button');
+    self.nbOfTilesVText = document.createElement('span');
+    self.incNbOfTilesVButton = document.createElement('button');
+    self.decNbOfTilesHButton = document.createElement('button');
+    self.nbOfTilesHText = document.createElement('span');
+    self.incNbOfTilesHButton = document.createElement('button');
+    self.restartButton = document.createElement('button');
+    self.photoButton = document.createElement('button');
+    self.text = document.createElement('span');
 
     self.setUp = function() {
         self.addNbOfTilesVButtons();
         self.addNbOfTilesHButtons();
         self.addRestartButton();
+        self.addPhotoButton();
+        self.addText();
     };
 
     self.addNbOfTilesVButtons = function() {
-        self.decNbOfTilesVButton = document.createElement('button');
         self.decNbOfTilesVButton.innerHTML = '-';
         self.div.appendChild(self.decNbOfTilesVButton);
-
-        self.nbOfTilesVText = document.createElement('span');
         self.div.appendChild(self.nbOfTilesVText);
-
-        self.incNbOfTilesVButton = document.createElement('button');
         self.incNbOfTilesVButton.innerHTML = '+';
         self.div.appendChild(self.incNbOfTilesVButton);
     };
@@ -34,14 +33,9 @@ var Menu = function() {
     };
 
     self.addNbOfTilesHButtons = function() {
-        self.decNbOfTilesHButton = document.createElement('button');
         self.decNbOfTilesHButton.innerHTML = '-';
         self.div.appendChild(self.decNbOfTilesHButton);
-
-        self.nbOfTilesHText = document.createElement('span');
         self.div.appendChild(self.nbOfTilesHText);
-
-        self.incNbOfTilesHButton = document.createElement('button');
         self.incNbOfTilesHButton.innerHTML = '+';
         self.div.appendChild(self.incNbOfTilesHButton);
     };
@@ -51,9 +45,32 @@ var Menu = function() {
     };
 
     self.addRestartButton = function() {
-        self.restartButton = document.createElement('button');
         self.restartButton.innerHTML = 'R';
         self.div.appendChild(self.restartButton);
+    };
+
+    self.addPhotoButton = function() {
+        if (navigator.webkitGetUserMedia != null) {
+            self.photoButton.innerHTML = 'P';
+            self.div.appendChild(self.photoButton);
+        }
+    };
+
+    self.addText = function() {
+        self.div.appendChild(self.text);
+    };
+
+    self.showText = function(text) {
+        self.text.style.display = 'inline';
+        self.text.innerHTML = text;
+    };
+
+    self.hideText = function() {
+        self.text.style.display = 'none';
+    };
+
+    self.removePhotoButton = function() {
+        self.div.removeChild(self.photoButton);
     };
 
 };
