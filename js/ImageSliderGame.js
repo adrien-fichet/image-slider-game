@@ -113,7 +113,6 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
     self.showCamera = function() {
         self.menu.photoButton.removeEventListener('click', self.showCamera);
-        self.menu.photoButton.addEventListener('click', self.takePicture);
         self.menu.showText('Loading camera...');
 
         navigator.webkitGetUserMedia({video: true}, function(stream) {
@@ -128,9 +127,10 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
     self.drawCameraImage = function() {
         self.video.removeEventListener('playing', self.drawCameraImage);
-        self.menu.hideText();
+        self.menu.showText('Click anywhere to take picture!');
         self.cameraCanvas = document.createElement('canvas');
         self.cameraCanvas.setAttribute('id', 'cameraCanvas');
+        self.canvas.addEventListener('click', self.takePicture);
         document.querySelector('body').appendChild(self.cameraCanvas);
         var cameraCtx = self.cameraCanvas.getContext('2d');
         self.cameraCanvas.width = self.canvas.width;
@@ -146,11 +146,12 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
         self.drawCameraImageInterval = setInterval(function() {
             cameraCtx.drawImage(self.video, 0, 0, self.cameraCanvas.width, self.cameraCanvas.height);
-        }, 250);
+        }, 100);
     };
 
     self.takePicture = function() {
-        self.menu.photoButton.removeEventListener('click', self.takePicture);
+        self.menu.hideText();
+        self.canvas.removeEventListener('click', self.takePicture);
         self.menu.photoButton.addEventListener('click', self.showCamera);
         self.video.pause();
         self.video.src = null;
