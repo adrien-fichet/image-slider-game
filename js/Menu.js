@@ -50,7 +50,7 @@ var Menu = function() {
     };
 
     self.addPhotoButton = function() {
-        if (navigator.webkitGetUserMedia != null) {
+        if (navigator.getUserMedia != null) {
             self.photoButton.innerHTML = 'P';
             self.div.appendChild(self.photoButton);
         }

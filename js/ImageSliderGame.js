@@ -22,6 +22,12 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     self.setUp = function() {
         self.resizeCanvas();
         self.loadGameImages();
+        self.setUpNavigator();
+    };
+
+    self.setUpNavigator = function() {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia || navigator.msGetUserMedia;
     };
 
     self.resize = function() {
@@ -115,7 +121,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.menu.photoButton.removeEventListener('click', self.showCamera);
         self.menu.showText('Loading camera...');
 
-        navigator.webkitGetUserMedia({video: true}, function(stream) {
+        navigator.getUserMedia({video: true}, function(stream) {
             self.video.src = window.URL.createObjectURL(stream);
             self.localMediaStream = stream;
             self.video.addEventListener('playing', self.drawCameraImage);
