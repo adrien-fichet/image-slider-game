@@ -13,8 +13,8 @@ var Menu = function() {
     self.text = document.createElement('span');
 
     self.setUp = function() {
-        self.addNbOfTilesVButtons();
         self.addNbOfTilesHButtons();
+        self.addNbOfTilesVButtons();
         self.addRestartButton();
         self.addPhotoButton();
         self.addText();
@@ -68,10 +68,6 @@ var Menu = function() {
     self.hideText = function() {
         self.text.style.display = 'none';
         self.text.innerHTML = '';
-    };
-
-    self.removePhotoButton = function() {
-        self.div.removeChild(self.photoButton);
     };
 
 };

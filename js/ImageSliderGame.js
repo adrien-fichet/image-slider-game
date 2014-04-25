@@ -126,17 +126,17 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
             self.localMediaStream = stream;
             self.video.addEventListener('playing', self.drawCameraImage);
         }, function() {
-            self.menu.hideText();
-            self.menu.removePhotoButton();
+            self.menu.showText('Error while loading camera');
+            self.menu.photoButton.addEventListener('click', self.showCamera);
         });
     };
 
     self.drawCameraImage = function() {
         self.video.removeEventListener('playing', self.drawCameraImage);
-        self.menu.showText('Click anywhere to take picture!');
+        self.menu.showText('Click on video to take a picture!');
         self.cameraCanvas = document.createElement('canvas');
         self.cameraCanvas.setAttribute('id', 'cameraCanvas');
-        self.canvas.addEventListener('click', self.takePicture);
+        self.canvas.removeEventListener('click', self.onCanvasClick);
         document.querySelector('body').appendChild(self.cameraCanvas);
         var cameraCtx = self.cameraCanvas.getContext('2d');
         self.cameraCanvas.width = self.canvas.width;
@@ -151,7 +151,12 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         }
 
         self.drawCameraImageInterval = setInterval(function() {
-            cameraCtx.drawImage(self.video, 0, 0, self.cameraCanvas.width, self.cameraCanvas.height);
+            try {
+                cameraCtx.drawImage(self.video, 0, 0, self.cameraCanvas.width, self.cameraCanvas.height);
+            } catch (e) {
+                return;
+            }
+            self.canvas.addEventListener('click', self.takePicture);
         }, 100);
     };
 
@@ -159,6 +164,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         clearInterval(self.drawCameraImageInterval);
         self.menu.hideText();
         self.canvas.removeEventListener('click', self.takePicture);
+        self.canvas.addEventListener('click', self.onCanvasClick);
         self.menu.photoButton.addEventListener('click', self.showCamera);
         self.img = new Image();
         self.img.onload = self.restart;
