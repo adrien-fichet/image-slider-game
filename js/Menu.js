@@ -67,6 +67,7 @@ var Menu = function() {
 
     self.hideText = function() {
         self.text.style.display = 'none';
+        self.text.innerHTML = '';
     };
 
     self.removePhotoButton = function() {

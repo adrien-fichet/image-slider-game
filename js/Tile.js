@@ -49,20 +49,11 @@ var Tile = function(ctx, img, clipIndex) {
 
     self.animateMove = function(direction, switchImagesCallback) {
         var startTime = (new Date()).getTime();
-        var coef = self.getCoef(direction);
         var originalPos = new Position(self.pos.x, self.pos.y);
-        self.requestMoveAnimationFrame(startTime, originalPos, direction, coef, switchImagesCallback);
+        self.requestMoveAnimationFrame(startTime, originalPos, direction, switchImagesCallback);
     };
 
-    self.getCoef = function(direction) {
-        if (direction == Directions.RIGHT || direction == Directions.DOWN) {
-            return 1;
-        } else if (direction == Directions.LEFT || direction == Directions.UP) {
-            return -1;
-        }
-    };
-
-    self.requestMoveAnimationFrame = function(startTime, originalPos, direction, coef, switchImagesCallback) {
+    self.requestMoveAnimationFrame = function(startTime, originalPos, direction, switchImagesCallback) {
         var time = (new Date()).getTime() - startTime;
         self.updatePos(time, direction, originalPos);
         self.draw();
@@ -71,7 +62,7 @@ var Tile = function(ctx, img, clipIndex) {
             switchImagesCallback();
         } else {
             window.requestAnimationFrame(function() {
-                self.requestMoveAnimationFrame(startTime, originalPos, direction, coef, switchImagesCallback);
+                self.requestMoveAnimationFrame(startTime, originalPos, direction, switchImagesCallback);
             });
         }
     };

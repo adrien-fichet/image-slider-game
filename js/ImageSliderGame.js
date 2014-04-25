@@ -167,6 +167,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     };
 
     self.restart = function() {
+        self.menu.hideText();
         self.tiles = [];
         self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
         self.moveController = new MoveController(self.nbOfTilesV, self.nbOfTilesH);
@@ -206,8 +207,14 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
             self.ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
         }
 
+        var gameIsOver = true;
+
         for (var i=0; i < self.tiles.length; i++) {
             var clipIndex = self.tiles[i].clipIndex;
+
+            if (clipIndex != i) {
+                gameIsOver = false;
+            }
 
             var newSize = new Size(
                     Math.floor(self.canvas.width / self.nbOfTilesV),
@@ -234,6 +241,17 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
                 self.tiles[i].clear();
             } else {
                 self.tiles[i].draw();
+            }
+        }
+
+        if (gameIsOver) {
+            self.menu.showText('Well done!');
+
+            for (var i=0; i < self.tiles.length; i++) {
+                if (self.tiles[i].hidden) {
+                    self.tiles[i].hidden = false;
+                    self.tiles[i].draw();
+                }
             }
         }
     };
