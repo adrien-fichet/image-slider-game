@@ -156,20 +156,19 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     };
 
     self.takePicture = function() {
+        clearInterval(self.drawCameraImageInterval);
         self.menu.hideText();
         self.canvas.removeEventListener('click', self.takePicture);
         self.menu.photoButton.addEventListener('click', self.showCamera);
+        self.img = new Image();
+        self.img.onload = self.restart;
+        self.img.src = self.cameraCanvas.toDataURL();
         self.video.pause();
-        self.video.src = null;
         self.localMediaStream.stop();
         self.localMediaStream = null;
-        clearInterval(self.drawCameraImageInterval);
-        self.img = new Image();
-        self.img.src = self.cameraCanvas.toDataURL('image/png');
         document.querySelector('body').removeChild(self.cameraCanvas);
         self.cameraCanvas = null;
         self.showingCamera = false;
-        self.restart();
     };
 
     self.restart = function() {
