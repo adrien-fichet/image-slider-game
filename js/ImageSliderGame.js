@@ -281,6 +281,13 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         var originalPos = new Position(self.tiles[clickedTileIndex].pos.x, self.tiles[clickedTileIndex].pos.y);
         var direction = self.moveController.possibleMove(self.tiles, clickedTileIndex);
 
+        if (direction == null) {
+            return;
+        }
+
+        self.canvas.removeEventListener('mousedown', self.onCanvasMouseDown);
+        self.canvas.removeEventListener('touchstart', self.onCanvasMouseDown);
+
         self.onCanvasMouseMove = function(event) {
             var mousePos = self.getMousePos(event);
 
@@ -310,6 +317,8 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
     self.endAnimation = function() {
         self.updateTiles();
+        self.canvas.addEventListener('mousedown', self.onCanvasMouseDown);
+        self.canvas.addEventListener('touchstart', self.onCanvasMouseDown);
     };
 
     self.getTileIndex = function(pos) {
