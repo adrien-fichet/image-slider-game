@@ -72,7 +72,8 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
             self.setUpTiles();
             self.shuffleTiles();
             self.updateTiles();
-            self.canvas.addEventListener('click', self.onCanvasClick);
+            self.canvas.addEventListener('mousedown', self.onCanvasMouseDown);
+            self.canvas.addEventListener('touchstart', self.onCanvasMouseDown);
             self.setUpMenu();
         }
     };
@@ -136,7 +137,8 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.menu.showText('Click on video to take a picture!');
         self.cameraCanvas = document.createElement('canvas');
         self.cameraCanvas.setAttribute('id', 'cameraCanvas');
-        self.canvas.removeEventListener('click', self.onCanvasClick);
+        self.canvas.removeEventListener('mousedown', self.onCanvasMouseDown);
+        self.canvas.removeEventListener('touchstart', self.onCanvasMouseDown);
         document.querySelector('body').appendChild(self.cameraCanvas);
         var cameraCtx = self.cameraCanvas.getContext('2d');
         self.cameraCanvas.width = self.canvas.width;
@@ -164,7 +166,8 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         clearInterval(self.drawCameraImageInterval);
         self.menu.hideText();
         self.canvas.removeEventListener('click', self.takePicture);
-        self.canvas.addEventListener('click', self.onCanvasClick);
+        self.canvas.addEventListener('mousedown', self.onCanvasMouseDown);
+        self.canvas.addEventListener('touchstart', self.onCanvasMouseDown);
         self.menu.photoButton.addEventListener('click', self.showCamera);
         self.img = new Image();
         self.img.onload = self.restart;
@@ -267,10 +270,30 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         }
     };
 
-    self.onCanvasClick = function(event) {
-        var mousePos = new Position(event.clientX - self.canvas.offsetLeft, event.clientY - self.canvas.offsetTop);
-        var clickedTileIndex = self.getTileIndex(mousePos);
-        self.moveController.moveIfPossible(self.tiles, clickedTileIndex, self.endAnimation);
+    self.onCanvasMouseDown = function(event) {
+        var originalMousePos = self.getMousePos(event);
+        var clickedTileIndex = self.getTileIndex(originalMousePos);
+        var originalPos = new Position(self.tiles[clickedTileIndex].pos.x, self.tiles[clickedTileIndex].pos.y);
+        var direction = self.moveController.possibleMove(self.tiles, clickedTileIndex);
+
+        self.onCanvasMouseMove = function(event) {
+            var mousePos = self.getMousePos(event);
+            self.tiles[clickedTileIndex].move(originalPos, mousePos, originalMousePos, direction);
+            self.tiles[clickedTileIndex].draw();
+        };
+
+        self.onCanvasMouseUp = function(event) {
+            document.querySelector('html').removeEventListener('mouseup', self.onCanvasMouseUp);
+            document.querySelector('html').removeEventListener('touchend', self.onCanvasMouseUp);
+            self.canvas.removeEventListener('mousemove', self.onCanvasMouseMove);
+            self.canvas.removeEventListener('touchmove', self.onCanvasMouseMove);
+            self.moveController.moveIfPossible(self.tiles, clickedTileIndex, self.endAnimation);
+        };
+
+        self.canvas.addEventListener('mousemove', self.onCanvasMouseMove);
+        self.canvas.addEventListener('touchmove', self.onCanvasMouseMove);
+        document.querySelector('html').addEventListener('mouseup', self.onCanvasMouseUp);
+        document.querySelector('html').addEventListener('touchend', self.onCanvasMouseUp);
     };
 
     self.endAnimation = function() {
@@ -281,6 +304,18 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         var x = Math.floor(pos.x / self.tilesSize.width);
         var y = Math.floor(pos.y / self.tilesSize.height);
         return x + y * self.nbOfTilesV;
+    };
+
+    self.getMousePos = function(event) {
+        if (event.type == 'mousedown' || event.type == 'mousemove') {
+            return new Position(event.clientX - self.canvas.offsetLeft, event.clientY - self.canvas.offsetTop);
+        } else if (event.type == 'touchstart' || event.type == 'touchmove') {
+            event.preventDefault();
+            return new Position(
+                    event.targetTouches[0].pageX - self.canvas.offsetLeft,
+                    event.targetTouches[0].pageY - self.canvas.offsetTop
+            );
+        }
     };
 
 };

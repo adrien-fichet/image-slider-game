@@ -12,6 +12,7 @@ var Tile = function(ctx, img, clipIndex) {
     self.acceleration = 0.001;
     self.exitAnimation = null;
     self.padding = 5;
+    self.startPos = null;
 
     self.setClip = function(clip) {
         self.clip = clip;
@@ -23,6 +24,7 @@ var Tile = function(ctx, img, clipIndex) {
 
     self.setPos = function(pos) {
         self.pos = pos;
+        self.startPos = new Position(pos.x, pos.y);
     };
 
     self.setHidden = function(value) {
@@ -81,10 +83,10 @@ var Tile = function(ctx, img, clipIndex) {
 
     self.updatePosRight = function(time, originalPos) {
         var newValue = originalPos.x + (time * (self.velocity + self.acceleration * time / 2));
-        self.exitAnimation = (newValue > originalPos.x + self.size.width);
+        self.exitAnimation = (newValue > self.startPos.x + self.size.width);
 
         if (self.exitAnimation) {
-            self.pos.x = originalPos.x + self.size.width;
+            self.pos.x = self.startPos.x + self.size.width;
         } else {
             self.pos.x = newValue;
         }
@@ -94,10 +96,10 @@ var Tile = function(ctx, img, clipIndex) {
 
     self.updatePosLeft = function(time, originalPos) {
         var newValue = originalPos.x - (time * (self.velocity + self.acceleration * time / 2));
-        self.exitAnimation = (newValue < originalPos.x - self.size.width);
+        self.exitAnimation = (newValue < self.startPos.x - self.size.width);
 
         if (self.exitAnimation) {
-            self.pos.x = originalPos.x - self.size.width;
+            self.pos.x = self.startPos.x - self.size.width;
         } else {
             self.pos.x = newValue;
         }
@@ -107,10 +109,10 @@ var Tile = function(ctx, img, clipIndex) {
 
     self.updatePosUp = function(time, originalPos) {
         var newValue = originalPos.y - (time * (self.velocity + self.acceleration * time / 2));
-        self.exitAnimation = newValue < (originalPos.y - self.size.height);
+        self.exitAnimation = newValue < (self.startPos.y - self.size.height);
 
         if (self.exitAnimation) {
-            self.pos.y = originalPos.y - self.size.height;
+            self.pos.y = self.startPos.y - self.size.height;
         } else {
             self.pos.y = newValue;
         }
@@ -120,10 +122,10 @@ var Tile = function(ctx, img, clipIndex) {
 
     self.updatePosDown = function(time, originalPos) {
         var newValue = originalPos.y + (time * (self.velocity + self.acceleration * time / 2));
-        self.exitAnimation = newValue > (originalPos.y + self.size.height);
+        self.exitAnimation = newValue > (self.startPos.y + self.size.height);
 
         if (self.exitAnimation) {
-            self.pos.y = originalPos.y + self.size.height;
+            self.pos.y = self.startPos.y + self.size.height;
         } else {
             self.pos.y = newValue;
         }
@@ -138,6 +140,74 @@ var Tile = function(ctx, img, clipIndex) {
                 self.size.width - self.padding * 2,
                 self.size.height - self.padding * 2
         );
+    };
+
+    self.move = function(originalPos, mousePos, originalMousePos, direction) {
+        if (direction == Directions.RIGHT) {
+            self.moveRight(originalPos, mousePos, originalMousePos);
+        } else if (direction == Directions.LEFT) {
+            self.moveLeft(originalPos, mousePos, originalMousePos);
+        } else if (direction == Directions.UP) {
+            self.moveUp(originalPos, mousePos, originalMousePos);
+        } else if (direction == Directions.DOWN) {
+            self.moveDown(originalPos, mousePos, originalMousePos);
+        }
+    };
+
+    self.moveRight = function(originalPos, mousePos, originalMousePos) {
+        var newX = originalPos.x + mousePos.x - originalMousePos.x;
+
+        if (newX < self.startPos.x) {
+            self.pos = new Position(self.startPos.x, originalPos.y);
+        } else if (newX > self.startPos.x + self.size.width) {
+            self.pos = new Position(self.startPos.x + self.size.width, originalPos.y);
+        } else {
+            self.pos = new Position(newX, originalPos.y);
+        }
+
+        self.ctx.clearRect(originalPos.x, self.pos.y, self.size.width * 2, self.size.height);
+    };
+
+    self.moveLeft = function(originalPos, mousePos, originalMousePos) {
+        var newX = originalPos.x - (originalMousePos.x - mousePos.x);
+
+        if (newX > self.startPos.x) {
+            self.pos = new Position(self.startPos.x, originalPos.y);
+        } else if (newX < self.startPos.x - self.size.width) {
+            self.pos = new Position(self.startPos.x - self.size.width, originalPos.y);
+        } else {
+            self.pos = new Position(newX, originalPos.y);
+        }
+
+        self.ctx.clearRect(originalPos.x - self.size.width, self.pos.y, self.size.width * 2, self.size.height);
+    };
+
+    self.moveUp = function(originalPos, mousePos, originalMousePos) {
+        var newY = originalPos.y - (originalMousePos.y - mousePos.y);
+
+        if (newY > self.startPos.y) {
+            self.pos = new Position(originalPos.x, self.startPos.y);
+        } else if (newY < self.startPos.y - self.size.height) {
+            self.pos = new Position(originalPos.x, self.startPos.y - self.size.height);
+        } else {
+            self.pos = new Position(originalPos.x, newY);
+        }
+
+        self.ctx.clearRect(self.pos.x, originalPos.y - self.size.height, self.size.width, self.size.height * 2);
+    };
+
+    self.moveDown = function(originalPos, mousePos, originalMousePos) {
+        var newY = originalPos.y + mousePos.y - originalMousePos.y;
+
+        if (newY < self.startPos.y) {
+            self.pos = new Position(originalPos.x, self.startPos.y);
+        } else if (newY > self.startPos.y + self.size.height) {
+            self.pos = new Position(originalPos.x, self.startPos.y + self.size.height);
+        } else {
+            self.pos = new Position(originalPos.x, newY);
+        }
+
+        self.ctx.clearRect(self.pos.x, originalPos.y, self.size.width, self.size.height * 2);
     };
 
 };
