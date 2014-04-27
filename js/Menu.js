@@ -21,10 +21,10 @@ var Menu = function() {
     };
 
     self.addNbOfTilesVButtons = function() {
-        self.decNbOfTilesVButton.innerHTML = '-';
+        self.decNbOfTilesVButton.style.background = 'url("im/dec.png") no-repeat center';
         self.div.appendChild(self.decNbOfTilesVButton);
         self.div.appendChild(self.nbOfTilesVText);
-        self.incNbOfTilesVButton.innerHTML = '+';
+        self.incNbOfTilesVButton.style.background = 'url("im/inc.png") no-repeat center';
         self.div.appendChild(self.incNbOfTilesVButton);
     };
 
@@ -33,10 +33,10 @@ var Menu = function() {
     };
 
     self.addNbOfTilesHButtons = function() {
-        self.decNbOfTilesHButton.innerHTML = '-';
+        self.decNbOfTilesHButton.style.background = 'url("im/dec.png") no-repeat center';
         self.div.appendChild(self.decNbOfTilesHButton);
         self.div.appendChild(self.nbOfTilesHText);
-        self.incNbOfTilesHButton.innerHTML = '+';
+        self.incNbOfTilesHButton.style.background = 'url("im/inc.png") no-repeat center';
         self.div.appendChild(self.incNbOfTilesHButton);
     };
 
@@ -45,13 +45,13 @@ var Menu = function() {
     };
 
     self.addRestartButton = function() {
-        self.restartButton.innerHTML = 'R';
+        self.restartButton.style.background = 'url("im/restart.png") no-repeat center';
         self.div.appendChild(self.restartButton);
     };
 
     self.addPhotoButton = function() {
         if (navigator.getUserMedia != null) {
-            self.photoButton.innerHTML = 'P';
+            self.photoButton.style.background = 'url("im/photo.png") no-repeat center';
             self.div.appendChild(self.photoButton);
         }
     };

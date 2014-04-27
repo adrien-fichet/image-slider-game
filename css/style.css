@@ -20,12 +20,11 @@ canvas {
     width: 30px;
     margin: 5px;
     background-color: rgba(0, 0, 0, 0);
-    border: 1px solid #dddddd;
-    color: #dddddd;
+    border: none;
 }
 
 #menu span {
-    color: #dddddd;
+    color: white;
 }
 
 video {
