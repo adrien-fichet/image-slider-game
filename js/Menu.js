@@ -9,6 +9,8 @@ var Menu = function() {
     self.nbOfTilesHText = document.createElement('span');
     self.incNbOfTilesHButton = document.createElement('button');
     self.restartButton = document.createElement('button');
+    self.fileInput = document.createElement('input');
+    self.loadImageButton = document.createElement('button');
     self.photoButton = document.createElement('button');
     self.text = document.createElement('span');
 
@@ -16,6 +18,7 @@ var Menu = function() {
         self.addNbOfTilesHButtons();
         self.addNbOfTilesVButtons();
         self.addRestartButton();
+        self.addLoadImageButton();
         self.addPhotoButton();
         self.addText();
     };
@@ -68,6 +71,13 @@ var Menu = function() {
     self.hideText = function() {
         self.text.style.display = 'none';
         self.text.innerHTML = '';
+    };
+
+    self.addLoadImageButton = function() {
+        self.fileInput.setAttribute('type', 'file');
+        self.div.appendChild(self.fileInput);
+        self.loadImageButton.style.background = 'url("im/load.png") no-repeat center';
+        self.div.appendChild(self.loadImageButton);
     };
 
 };

@@ -87,6 +87,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.menu.setNbOfTilesHText(self.nbOfTilesH);
         self.menu.incNbOfTilesHButton.addEventListener('click', self.incNbOfTilesH);
         self.menu.restartButton.addEventListener('click', self.restart);
+        self.menu.loadImageButton.addEventListener('click', self.loadImageFile);
         self.menu.photoButton.addEventListener('click', self.showCamera);
     };
 
@@ -188,6 +189,22 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.setUpTiles();
         self.shuffleTiles();
         self.updateTiles();
+    };
+
+    self.loadImageFile = function() {
+        self.menu.fileInput.addEventListener('change', self.onImageSelect);
+        self.menu.fileInput.click();
+    };
+
+    self.onImageSelect = function() {
+        self.menu.fileInput.removeEventListener('change', self.onImageChange);
+        var fr = new FileReader();
+        fr.onload = function() {
+            self.img = new Image();
+            self.img.onload = self.restart;
+            self.img.src = fr.result;
+        };
+        fr.readAsDataURL(self.menu.fileInput.files[0]);
     };
 
     self.setUpTiles = function() {

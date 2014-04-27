@@ -3,12 +3,6 @@ body {
     font-family: sans-serif;
     margin: auto;
     max-width: 800px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 canvas {
@@ -25,8 +19,11 @@ canvas {
     height: 30px;
     width: 30px;
     margin: 5px;
-    background-color: rgba(0, 0, 0, 0);
     border: none;
+}
+
+#menu button:focus {
+    outline: none;
 }
 
 #menu span {
@@ -41,4 +38,8 @@ video {
     position: absolute;
     top: 40px;
     z-index: -1;
+}
+
+input[type=file] {
+    display: none;
 }
