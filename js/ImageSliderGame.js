@@ -272,12 +272,22 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
     self.onCanvasMouseDown = function(event) {
         var originalMousePos = self.getMousePos(event);
+
+        if (originalMousePos == null) {
+            return;
+        }
+
         var clickedTileIndex = self.getTileIndex(originalMousePos);
         var originalPos = new Position(self.tiles[clickedTileIndex].pos.x, self.tiles[clickedTileIndex].pos.y);
         var direction = self.moveController.possibleMove(self.tiles, clickedTileIndex);
 
         self.onCanvasMouseMove = function(event) {
             var mousePos = self.getMousePos(event);
+
+            if (mousePos == null) {
+                return;
+            }
+
             self.tiles[clickedTileIndex].move(originalPos, mousePos, originalMousePos, direction);
             self.tiles[clickedTileIndex].draw();
         };
@@ -311,10 +321,15 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
             return new Position(event.clientX - self.canvas.offsetLeft, event.clientY - self.canvas.offsetTop);
         } else if (event.type == 'touchstart' || event.type == 'touchmove') {
             event.preventDefault();
-            return new Position(
-                    event.targetTouches[0].pageX - self.canvas.offsetLeft,
-                    event.targetTouches[0].pageY - self.canvas.offsetTop
-            );
+
+            if (event.targetTouches.length == 1) {
+                return new Position(
+                        event.targetTouches[0].pageX - self.canvas.offsetLeft,
+                        event.targetTouches[0].pageY - self.canvas.offsetTop
+                );
+            } else {
+                return null;
+            }
         }
     };
 
