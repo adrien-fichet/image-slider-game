@@ -294,6 +294,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
         self.onCanvasMouseUp = function(event) {
             document.querySelector('html').removeEventListener('mouseup', self.onCanvasMouseUp);
+            document.querySelector('html').removeEventListener('mouseout', self.onCanvasMouseUp);
             document.querySelector('html').removeEventListener('touchend', self.onCanvasMouseUp);
             self.canvas.removeEventListener('mousemove', self.onCanvasMouseMove);
             self.canvas.removeEventListener('touchmove', self.onCanvasMouseMove);
@@ -303,6 +304,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.canvas.addEventListener('mousemove', self.onCanvasMouseMove);
         self.canvas.addEventListener('touchmove', self.onCanvasMouseMove);
         document.querySelector('html').addEventListener('mouseup', self.onCanvasMouseUp);
+        document.querySelector('html').addEventListener('mouseout', self.onCanvasMouseUp);
         document.querySelector('html').addEventListener('touchend', self.onCanvasMouseUp);
     };
 
