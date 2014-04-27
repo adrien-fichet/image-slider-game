@@ -285,9 +285,6 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
             return;
         }
 
-        self.canvas.removeEventListener('mousedown', self.onCanvasMouseDown);
-        self.canvas.removeEventListener('touchstart', self.onCanvasMouseDown);
-
         self.onCanvasMouseMove = function(event) {
             var mousePos = self.getMousePos(event);
 
@@ -313,6 +310,8 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         document.querySelector('html').addEventListener('mouseup', self.onCanvasMouseUp);
         document.querySelector('html').addEventListener('mouseout', self.onCanvasMouseUp);
         document.querySelector('html').addEventListener('touchend', self.onCanvasMouseUp);
+        self.canvas.removeEventListener('mousedown', self.onCanvasMouseDown);
+        self.canvas.removeEventListener('touchstart', self.onCanvasMouseDown);
     };
 
     self.endAnimation = function() {
