@@ -19,6 +19,7 @@ module.exports = function(grunt) {
                     'build/Size.js',
                     'build/Position.js',
                     'build/Clip.js',
+                    'build/Solver.js',
                     'build/MoveController.js',
                     'build/Tile.js',
                     'build/Menu.js',

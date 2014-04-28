@@ -89,6 +89,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.menu.restartButton.addEventListener('click', self.restart);
         self.menu.loadImageButton.addEventListener('click', self.loadImageFile);
         self.menu.photoButton.addEventListener('click', self.showCamera);
+        self.menu.solveButton.addEventListener('click', self.solve);
     };
 
     self.decNbOfTilesV = function() {
@@ -358,6 +359,11 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
                 return null;
             }
         }
+    };
+
+    self.solve = function() {
+        var solver = new Solver();
+        solver.solve(self.nbOfTilesV, self.nbOfTilesH, self.tiles);
     };
 
 };

@@ -12,6 +12,7 @@ var Menu = function() {
     self.fileInput = document.createElement('input');
     self.loadImageButton = document.createElement('button');
     self.photoButton = document.createElement('button');
+    self.solveButton = document.createElement('button');
     self.text = document.createElement('span');
 
     self.setUp = function() {
@@ -20,6 +21,7 @@ var Menu = function() {
         self.addRestartButton();
         self.addLoadImageButton();
         self.addPhotoButton();
+        self.addSolveButton();
         self.addText();
     };
 
@@ -78,6 +80,11 @@ var Menu = function() {
         self.div.appendChild(self.fileInput);
         self.loadImageButton.style.background = 'url("im/load.png") no-repeat center';
         self.div.appendChild(self.loadImageButton);
+    };
+
+    self.addSolveButton = function() {
+        self.solveButton.style.background = 'url("im/solve.png") no-repeat center';
+        self.div.appendChild(self.solveButton);
     };
 
 };
