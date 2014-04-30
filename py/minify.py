@@ -26,7 +26,6 @@ class Minify(object):
     def minify_js_files_with_grunt(self):
         self.logger.info('Minifying js files with grunt')
         os.chdir(self.root_dir)
-        subprocess.call('npm install', shell=True)
         subprocess.call('grunt uglify:build', shell=True)
         subprocess.call('grunt concat:build', shell=True)
 
