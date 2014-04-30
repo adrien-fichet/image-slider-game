@@ -29,14 +29,19 @@ module.exports = function(grunt) {
             }
         },
         karma: {
-            unit: {
-                options: {
-                    files: [
-                        'js/MoveController.js',
-                        'test/*.js',
-                    ],
-                    frameworks: ['jasmine']
-                }
+            options: {
+                files: [
+                    'js/MoveController.js',
+                    'test/*.js',
+                ],
+                frameworks: ['jasmine'],
+            },
+            dev: {
+                browsers: ['Chrome']
+            },
+            continuous: {
+                singleRun: true,
+                browsers: ['PhantomJS']
             }
         }
     });

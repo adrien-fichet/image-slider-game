@@ -9,7 +9,7 @@ env:
 
 script:
   - npm install
-  - grunt karma
+  - grunt karma:continuous
   - python py/minify.py
 
 after_success:
