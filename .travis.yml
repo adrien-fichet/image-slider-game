@@ -9,9 +9,10 @@ env:
 
 script:
   - npm install -g grunt-cli
+  - grunt karma
   - python py/minify.py
 
-after_script:
+after_success:
   - cd $HOME
   - git config --global user.email "${GIT_EMAIL}"
   - git config --global user.name "${GIT_NAME}"

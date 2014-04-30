@@ -27,9 +27,21 @@ module.exports = function(grunt) {
                 ],
                 dest: 'build/grunt-concat-all.js'
             }
+        },
+        karma: {
+            unit: {
+                options: {
+                    files: [
+                        'js/MoveController.js',
+                        'test/*.js',
+                    ],
+                    frameworks: ['jasmine']
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-karma');
 };
