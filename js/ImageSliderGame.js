@@ -70,7 +70,6 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     self.startGame = function() {
         if (self.img.loaded && self.bgImg.loaded) {
             self.setUpTiles();
-            self.shuffleTiles();
             self.updateTiles();
             self.canvas.addEventListener('mousedown', self.onCanvasMouseDown);
             self.canvas.addEventListener('touchstart', self.onCanvasMouseDown);
@@ -188,7 +187,6 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
         self.moveController = new MoveController(self.nbOfTilesV, self.nbOfTilesH);
         self.setUpTiles();
-        self.shuffleTiles();
         self.updateTiles();
     };
 
@@ -210,25 +208,16 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
     self.setUpTiles = function() {
         var nbOfTiles = self.nbOfTilesV * self.nbOfTilesH;
+        var mix = new Shuffler().mix(self.nbOfTilesV, self.nbOfTilesH);
 
         for (var i=0; i < nbOfTiles; i++) {
-            var tile = new Tile(self.ctx, self.img, i);
+            var tile = new Tile(self.ctx, self.img, mix[i]);
 
-            if (i == nbOfTiles - 1) {
+            if (mix[i] == nbOfTiles - 1) {
                 tile.setHidden(true);
             }
 
             self.tiles.push(tile);
-        }
-    };
-
-    self.shuffleTiles = function() {
-        var mix = new Shuffler().mix(self.nbOfTilesV, self.nbOfTilesH);
-
-        for (var i=0; i < self.tiles.length; i++) {
-            var tmp = self.tiles[i];
-            self.tiles[i] = self.tiles[mix[i]];
-            self.tiles[mix[i]] = tmp;
         }
     };
 
