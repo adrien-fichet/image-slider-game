@@ -270,7 +270,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
             if (self.showingCamera) {
                 self.tiles[i].clear();
-            } else {
+            } else if (! gameIsOver) {
                 self.tiles[i].draw();
             }
         }
@@ -281,8 +281,10 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
             for (var i=0; i < self.tiles.length; i++) {
                 if (self.tiles[i].hidden) {
                     self.tiles[i].hidden = false;
-                    self.tiles[i].draw();
                 }
+
+                self.tiles[i].padding = 0;
+                self.tiles[i].draw();
             }
         }
     };
