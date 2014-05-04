@@ -92,7 +92,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     };
 
     self.decNbOfTilesV = function() {
-        if ((self.nbOfTilesV - 1) > 1) {
+        if ((self.nbOfTilesV - 1) > 2) {
             self.nbOfTilesV--;
             self.menu.setNbOfTilesVText(self.nbOfTilesV);
             self.restart();
@@ -106,7 +106,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     };
 
     self.decNbOfTilesH = function() {
-        if ((self.nbOfTilesH - 1) > 1) {
+        if ((self.nbOfTilesH - 1) > 2) {
             self.nbOfTilesH--;
             self.menu.setNbOfTilesHText(self.nbOfTilesH);
             self.restart();
