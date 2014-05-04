@@ -2,6 +2,16 @@ var Shuffler = function() {
     var self = this;
 
     self.mix = function(nbOfTilesV, nbOfTilesH) {
+        var result = null;
+
+        while (result == null) {
+            result = self.randomMix(nbOfTilesV, nbOfTilesH);
+        }
+
+        return result;
+    };
+
+    self.randomMix = function(nbOfTilesV, nbOfTilesH) {
         var moveController = new MoveController(nbOfTilesV, nbOfTilesH);
         var nbOfTiles = nbOfTilesV * nbOfTilesH;
         var blankTileIndex = nbOfTiles - 1;
@@ -13,7 +23,7 @@ var Shuffler = function() {
             result[i] = i;
         }
 
-        for (var i=0; i < 1000; i++) {
+        for (var i=0; i < Math.floor(Math.random() * 1000) + 1000; i++) {
             var surroundingTiles = moveController.getSurroundingTiles(tiles, blankTileIndex);
             var randomSurroundingTile = surroundingTiles[Math.floor(Math.random() * surroundingTiles.length)];
 
@@ -24,7 +34,7 @@ var Shuffler = function() {
         }
 
         if (self.alreadySolved(result)) {
-            return self.mix(nbOfTilesV, nbOfTilesH);
+            return null;
         }
 
         return result;

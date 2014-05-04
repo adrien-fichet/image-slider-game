@@ -352,8 +352,53 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     };
 
     self.solve = function() {
-        var solver = new Solver();
-        solver.solve(self.nbOfTilesV, self.nbOfTilesH, self.tiles);
+        self.canvas.removeEventListener('mousedown', self.onCanvasMouseDown);
+        self.canvas.removeEventListener('touchstart', self.onCanvasMouseDown);
+        self.menu.decNbOfTilesVButton.removeEventListener('click', self.decNbOfTilesV);
+        self.menu.incNbOfTilesVButton.removeEventListener('click', self.incNbOfTilesV);
+        self.menu.decNbOfTilesHButton.removeEventListener('click', self.decNbOfTilesH);
+        self.menu.incNbOfTilesHButton.removeEventListener('click', self.incNbOfTilesH);
+        self.menu.restartButton.removeEventListener('click', self.restart);
+        self.menu.loadImageButton.removeEventListener('click', self.loadImageFile);
+        self.menu.photoButton.removeEventListener('click', self.showCamera);
+        self.menu.solveButton.removeEventListener('click', self.solve);
+        self.menu.showText('Solving puzzle...');
+
+        var solution = new Solver(self.tiles, self.nbOfTilesV, self.nbOfTilesH).solve();
+
+        try {
+            self.solveAnimationStep(solution, 0, self.updateTiles, self.endSolveAnimation);
+        } catch (e) {
+            self.endSolveAnimation();
+        }
+    };
+
+    self.solveAnimationStep = function(solution, index, endOfMoveCallback, endOfAnimationCallback) {
+        if (index < solution.length) {
+            self.moveController = new MoveController(self.nbOfTilesV, self.nbOfTilesH);
+            self.moveController.moveIfPossible(self.tiles, solution[index], function() {
+                endOfMoveCallback();
+                setTimeout(function() {
+                    self.solveAnimationStep(solution, index + 1, endOfMoveCallback, endOfAnimationCallback);
+                }, 100);
+            });
+        } else {
+            endOfAnimationCallback();
+        }
+    };
+
+    self.endSolveAnimation = function() {
+        self.updateTiles();
+        self.canvas.addEventListener('mousedown', self.onCanvasMouseDown);
+        self.canvas.addEventListener('touchstart', self.onCanvasMouseDown);
+        self.menu.decNbOfTilesVButton.addEventListener('click', self.decNbOfTilesV);
+        self.menu.incNbOfTilesVButton.addEventListener('click', self.incNbOfTilesV);
+        self.menu.decNbOfTilesHButton.addEventListener('click', self.decNbOfTilesH);
+        self.menu.incNbOfTilesHButton.addEventListener('click', self.incNbOfTilesH);
+        self.menu.restartButton.addEventListener('click', self.restart);
+        self.menu.loadImageButton.addEventListener('click', self.loadImageFile);
+        self.menu.photoButton.addEventListener('click', self.showCamera);
+        self.menu.solveButton.addEventListener('click', self.solve);
     };
 
 };
