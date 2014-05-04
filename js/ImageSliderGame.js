@@ -222,14 +222,14 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
         }
     };
 
-    self.shuffleTiles = function(a) {
-        for (var j, x, i = self.tiles.length;
-                i;
-                j = parseInt(Math.random() * i),
-                x = self.tiles[--i],
-                self.tiles[i] = self.tiles[j],
-                self.tiles[j] = x
-        );
+    self.shuffleTiles = function() {
+        var mix = new Shuffler().mix(self.nbOfTilesV, self.nbOfTilesH);
+
+        for (var i=0; i < self.tiles.length; i++) {
+            var tmp = self.tiles[i];
+            self.tiles[i] = self.tiles[mix[i]];
+            self.tiles[mix[i]] = tmp;
+        }
     };
 
     self.updateTiles = function() {
