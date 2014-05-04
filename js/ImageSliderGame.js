@@ -93,7 +93,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     };
 
     self.decNbOfTilesV = function() {
-        if ((self.nbOfTilesV - 1) > 1) {
+        if ((self.nbOfTilesV - 1) > 2) {
             self.nbOfTilesV--;
             self.menu.setNbOfTilesVText(self.nbOfTilesV);
             self.restart();
@@ -107,7 +107,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
     };
 
     self.decNbOfTilesH = function() {
-        if ((self.nbOfTilesH - 1) > 1) {
+        if ((self.nbOfTilesH - 1) > 2) {
             self.nbOfTilesH--;
             self.menu.setNbOfTilesHText(self.nbOfTilesH);
             self.restart();
@@ -210,12 +210,11 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
     self.setUpTiles = function() {
         var nbOfTiles = self.nbOfTilesV * self.nbOfTilesH;
-        var randomTile = parseInt(Math.random() * nbOfTiles);
 
         for (var i=0; i < nbOfTiles; i++) {
             var tile = new Tile(self.ctx, self.img, i);
 
-            if (i == randomTile) {
+            if (i == nbOfTiles - 1) {
                 tile.setHidden(true);
             }
 
@@ -282,8 +281,10 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
             for (var i=0; i < self.tiles.length; i++) {
                 if (self.tiles[i].hidden) {
                     self.tiles[i].hidden = false;
-                    self.tiles[i].draw();
                 }
+
+                self.tiles[i].padding = 0;
+                self.tiles[i].draw();
             }
         }
     };

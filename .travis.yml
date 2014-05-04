@@ -8,10 +8,11 @@ env:
     - secure: nyEE3CAtUUxfIxggMPaMjHSMxn5b2n2Bzcj1MdE8mgBIkNihAkZ6evXLJstspGPEGWyGIJMEEJOJZmVTxXfg4FbrM5TBdFZtLZbXjZTR4vJmxqH2nOlCVVclOlXSDdbOUtsLMz7d2yHYwObQ4MqB7z16y7Jf/o/apjZ2faP/dDM=
 
 script:
-  - npm install -g grunt-cli
+  - npm install
+  - grunt karma:continuous
   - python py/minify.py
 
-after_script:
+after_success:
   - cd $HOME
   - git config --global user.email "${GIT_EMAIL}"
   - git config --global user.name "${GIT_NAME}"
