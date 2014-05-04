@@ -270,7 +270,7 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
             if (self.showingCamera) {
                 self.tiles[i].clear();
-            } else if (! gameIsOver) {
+            } else {
                 self.tiles[i].draw();
             }
         }
