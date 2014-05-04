@@ -209,12 +209,11 @@ var ImageSliderGame = function(imgSrc, nbOfTilesV, nbOfTilesH) {
 
     self.setUpTiles = function() {
         var nbOfTiles = self.nbOfTilesV * self.nbOfTilesH;
-        var randomTile = parseInt(Math.random() * nbOfTiles);
 
         for (var i=0; i < nbOfTiles; i++) {
             var tile = new Tile(self.ctx, self.img, i);
 
-            if (i == randomTile) {
+            if (i == nbOfTiles - 1) {
                 tile.setHidden(true);
             }
 
