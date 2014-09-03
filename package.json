@@ -1,6 +1,6 @@
 {
   "name": "image-slider-game",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A sliding puzzle written in Javascript and HTML5.",
   "homepage": "http://philip-wernersbach.github.io/image-slider-game/",
   "license": "Public Domain",
