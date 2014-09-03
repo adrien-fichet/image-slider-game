@@ -1,6 +1,16 @@
 {
   "name": "image-slider-game",
   "version": "0.0.1",
+  "description": "A sliding puzzle written in Javascript and HTML5.",
+  "homepage": "http://philip-wernersbach.github.io/image-slider-game/",
+  "license": "Public Domain",
+  "keywords": ["puzzle", "sliding", "game"],
+  "author": "sniksnp <sniksnp@gmail.com> (http://sniksnp.github.io)",
+  "contributors": [
+     "Philip Wernersbach <philip.wernersbach@gmail.com> (http://github.com/philip-wernersbach)"
+  ],
+  "repository": "philip-wernersbach/image-slider-game",
+  "engines": ["node"],
   "devDependencies": {
     "grunt": "^0.4.4",
     "grunt-contrib-jshint": "~0.6.3",
